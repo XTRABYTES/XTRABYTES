@@ -1,0 +1,11 @@
+What is the knowdlege base and bot? 
+The knowledge base is being built based upon frequintly asked questions by the community, to supplement the knowledge a bot is being trained using microsoft QnA Maker.
+
+How does the bot work? 
+The bot is trained with a knowledge base, this can constantly be updated and the bot will adapt. The bot will be built and deployed through Microsoft Azure services.
+
+Where can I find the bot? 
+The aim is to have the bot appear in a chat box when you reach the XtraBytes website. 
+
+Is it complete?
+No, though it should be operational soon.
