@@ -327,6 +327,61 @@ Value sendtoaddress(const Array& params, bool fHelp)
     return wtx.GetHash().GetHex();
 }
 
+Value regstaticnode(const Array& params, bool fHelp)  {
+    
+ 		if (fHelp || params.size() != 4 )
+      	throw runtime_error(
+         "regstaticnode <xtrabytesaddress> <name> <pubkey> <spendable>\n"
+         "<name> is a human readable name of STaTiC Node\n"
+         "<pubkey> STaTiC Node Public Key\n"
+         "<spendable> Spendable Wallet Address"
+         + HelpRequiringPassphrase());
+
+      CXtraBYtesAddress address(params[0].get_str());
+      if (!address.IsValid())
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid XtraBYtes address.");
+
+      // STaTiC deposit
+      int64_t nAmount = STaTiC_DEPOSIT;
+
+ 		string STaTiCnodeName = params[1].get_str();
+ 		string STaTiCnodePubKey = params[2].get_str();
+ 		CXtraBYtesAddress SpendableAddress(params[0].get_str());
+ 		
+ 		if (!SpendableAddress.IsValid())
+     		throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid spendable XtraBYtes address.");
+
+ 		std::stringstream regStringStream;
+      regStringStream 	<< params[0].get_str() << "|" 
+      						<< params[1].get_str() << "|" 
+      						<< params[2].get_str() << "|" 
+      						<< params[3].get_str();
+  
+ 		std::string regString = regStringStream.str();           
+ 		std::vector<unsigned char> regStringv(regString.begin(), regString.end()); 
+ 
+ 		CWalletTx wtx;
+		wtx.mapValue["to"] = params[0].get_str();
+    
+    	CScript scriptPubKeyOrig;
+    	scriptPubKeyOrig.SetDestination(address.Get());
+    	CScript scriptPubKey = CScript();
+    
+    	scriptPubKey << OP_SREGDATA << regStringv;       
+    	scriptPubKey += scriptPubKeyOrig;
+    
+ 		if (pwalletMain->IsLocked())
+     		throw JSONRPCError(RPC_WALLET_UNLOCK_NEEDED, "Error: Please enter the wallet passphrase with walletpassphrase first.");
+
+ 		string strError = pwalletMain->SendMoney(scriptPubKey, nAmount, wtx, false);
+
+ 		if (strError != "" )
+     		throw JSONRPCError(RPC_WALLET_ERROR, strError);
+
+ 		return wtx.GetHash().GetHex();
+}
+
+
 Value listaddressgroupings(const Array& params, bool fHelp)
 {
     if (fHelp)

@@ -8,6 +8,7 @@
 #include "transactiontablemodel.h"
 #include "addressbookpage.h"
 #include "sendcoinsdialog.h"
+#include "regstaticnodedialog.h"
 #include "signverifymessagedialog.h"
 #include "optionsdialog.h"
 #include "aboutdialog.h"
@@ -122,6 +123,8 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
 
     sendCoinsPage = new SendCoinsDialog(this);
 
+    RegSTaTiCnodePage = new RegSTaTiCnodeDialog(this);
+
     signVerifyMessageDialog = new SignVerifyMessageDialog(this);
 
     centralWidget = new QStackedWidget(this);
@@ -133,6 +136,7 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
     centralWidget->addWidget(addressBookPage);
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
+    centralWidget->addWidget(RegSTaTiCnodePage);
     setCentralWidget(centralWidget);
 
     // Create status bar
@@ -236,6 +240,12 @@ void XtraBYtesGUI::createActions()
     chatAction->setCheckable(true);
     tabGroup->addAction(chatAction);
 
+    RegSTaTiCnodeAction = new QAction(QIcon(":/icons/regstatic"), tr("&Register STaTiC node"), this);
+    RegSTaTiCnodeAction->setToolTip(tr("Register XtraBYtes address at STaTiC node"));
+    RegSTaTiCnodeAction->setCheckable(true);
+    RegSTaTiCnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
+    tabGroup->addAction(RegSTaTiCnodeAction);
+
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send coins"), this);
     sendCoinsAction->setToolTip(tr("Send coins to a xtrabytes address"));
     sendCoinsAction->setCheckable(true);
@@ -273,6 +283,9 @@ void XtraBYtesGUI::createActions()
 	connect(chatAction, SIGNAL(triggered()), this, SLOT(gotoChatPage()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
+    connect(RegSTaTiCnodeAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(RegSTaTiCnodeAction, SIGNAL(triggered()), this, SLOT(gotoRegSTaTiCnodePage()));
+
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -367,6 +380,7 @@ void XtraBYtesGUI::createToolBars()
     toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolbar->addAction(overviewAction);
     toolbar->addAction(sendCoinsAction);
+    toolbar->addAction(RegSTaTiCnodeAction);
     toolbar->addAction(receiveCoinsAction);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
@@ -474,6 +488,7 @@ void XtraBYtesGUI::createTrayIcon()
     // Configuration of the tray icon (or dock icon) icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
+    trayIconMenu->addAction(RegSTaTiCnodeAction);
     trayIconMenu->addAction(sendCoinsAction);
     trayIconMenu->addAction(receiveCoinsAction);
     trayIconMenu->addSeparator();
@@ -794,6 +809,15 @@ void XtraBYtesGUI::gotoReceiveCoinsPage()
     exportAction->setEnabled(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), receiveCoinsPage, SLOT(exportClicked()));
+}
+
+void XtraBYtesGUI::gotoRegSTaTiCnodePage()
+{
+    RegSTaTiCnodeAction->setChecked(true);
+    centralWidget->setCurrentWidget(RegSTaTiCnodePage);
+
+    exportAction->setEnabled(false);
+    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
 
 void XtraBYtesGUI::gotoSendCoinsPage()

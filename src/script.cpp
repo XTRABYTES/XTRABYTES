@@ -103,6 +103,7 @@ const char* GetTxnOutputType(txnouttype t)
     case TX_PUBKEY: return "pubkey";
     case TX_PUBKEYHASH: return "pubkeyhash";
     case TX_SCRIPTHASH: return "scripthash";
+    case TX_STATICREG: return "staticreg";    
     case TX_MULTISIG: return "multisig";
     }
     return NULL;
@@ -245,7 +246,7 @@ const char* GetOpName(opcodetype opcode)
     // template matching params
     case OP_PUBKEYHASH             : return "OP_PUBKEYHASH";
     case OP_PUBKEY                 : return "OP_PUBKEY";
-
+    case OP_SREGDATA               : return "OP_SREGDATA";
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
     default:
         return "OP_UNKNOWN";
@@ -1294,12 +1295,16 @@ bool CheckSig(vector<unsigned char> vchSig, vector<unsigned char> vchPubKey, CSc
 //
 bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsigned char> >& vSolutionsRet)
 {
+
     // Templates
     static map<txnouttype, CScript> mTemplates;
     if (mTemplates.empty())
     {
         // Standard tx, sender provides pubkey, receiver adds signature
         mTemplates.insert(make_pair(TX_PUBKEY, CScript() << OP_PUBKEY << OP_CHECKSIG));
+
+        // XtraBYtes address tx, sender provides hash of pubkey, receiver provides signature and pubkey
+        mTemplates.insert(make_pair(TX_STATICREG, CScript() << OP_SREGDATA << OP_DUP << OP_HASH160 << OP_PUBKEYHASH << OP_EQUALVERIFY << OP_CHECKSIG));
 
         // XtraBYtes address tx, sender provides hash of pubkey, receiver provides signature and pubkey
         mTemplates.insert(make_pair(TX_PUBKEYHASH, CScript() << OP_DUP << OP_HASH160 << OP_PUBKEYHASH << OP_EQUALVERIFY << OP_CHECKSIG));
@@ -1335,8 +1340,16 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
         {
             if (pc1 == script1.end() && pc2 == script2.end())
             {
+
                 // Found a match
                 typeRet = tplate.first;
+                
+                if (typeRet == TX_STATICREG)
+                {
+                	
+                	// Additional checks for TX_STATICREG:
+                	// FIXMEE!! need prevend data flooding
+                }
                 if (typeRet == TX_MULTISIG)
                 {
                     // Additional checks for TX_MULTISIG:
@@ -1353,7 +1366,18 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 break;
 
             // Template matching opcodes:
-            if (opcode2 == OP_PUBKEYS)
+                        
+            if (opcode2 == OP_SREGDATA)
+            {
+            	 if (!script1.GetOp(pc1, opcode1, vch1))
+                        break;              
+                if (vch1.size() < 1 || vch1.size() > 300)  // FIXMEE the values
+                    break;
+                // vSolutionsRet.push_back(vch1); //FIXMEE this ! more validations needed to prevent block data flooding
+                
+            }
+            
+            else if (opcode2 == OP_PUBKEYS)
             {
                 while (vch1.size() >= 33 && vch1.size() <= 120)
                 {
@@ -1367,7 +1391,7 @@ bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, vector<vector<unsi
                 // to other if/else statements
             }
 
-            if (opcode2 == OP_PUBKEY)
+            else if (opcode2 == OP_PUBKEY)
             {
                 if (vch1.size() < 33 || vch1.size() > 120)
                     break;
@@ -1456,6 +1480,7 @@ bool Solver(const CKeyStore& keystore, const CScript& scriptPubKey, uint256 hash
     case TX_PUBKEY:
         keyID = CPubKey(vSolutions[0]).GetID();
         return Sign1(keyID, keystore, hash, nHashType, scriptSigRet);
+    case TX_STATICREG:
     case TX_PUBKEYHASH:
         keyID = CKeyID(uint160(vSolutions[0]));
         if (!Sign1(keyID, keystore, hash, nHashType, scriptSigRet))
@@ -1493,6 +1518,8 @@ int ScriptSigArgsExpected(txnouttype t, const std::vector<std::vector<unsigned c
         return vSolutions[0][0] + 1;
     case TX_SCRIPTHASH:
         return 1; // doesn't include args needed by the script
+    case TX_STATICREG:    
+        return 2; 
     }
     return -1;
 }
@@ -1566,6 +1593,9 @@ bool IsMine(const CKeyStore &keystore, const CScript& scriptPubKey)
     case TX_PUBKEYHASH:
         keyID = CKeyID(uint160(vSolutions[0]));
         return keystore.HaveKey(keyID);
+    case TX_STATICREG:
+        keyID = CKeyID(uint160(vSolutions[0]));
+        return keystore.HaveKey(keyID);    
     case TX_SCRIPTHASH:
     {
         CScript subscript;
@@ -1600,6 +1630,11 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
         return true;
     }
     else if (whichType == TX_PUBKEYHASH)
+    {
+        addressRet = CKeyID(uint160(vSolutions[0]));
+        return true;
+    }
+    else if (whichType == TX_STATICREG)
     {
         addressRet = CKeyID(uint160(vSolutions[0]));
         return true;
@@ -1853,6 +1888,7 @@ static CScript CombineSignatures(CScript scriptPubKey, const CTransaction& txTo,
         return PushAll(sigs2);
     case TX_PUBKEY:
     case TX_PUBKEYHASH:
+    case TX_STATICREG:
         // Signatures are bigger than placeholders or empty scripts:
         if (sigs1.empty() || sigs1[0].empty())
             return PushAll(sigs2);
