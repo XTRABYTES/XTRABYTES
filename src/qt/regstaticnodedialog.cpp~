@@ -115,7 +115,7 @@ void RegSTaTiCnodeDialog::UpdateRegSTaTiCnodeDialogMessages() {
     
     if (AccountBalance != ( STaTiC_DEPOSIT + (100 * COIN))) {
    
-        ui->labelSTaTiCnodeControlMsgBox->setText(tr("WARNING! You need exactly 500100 deposited to your STaTiC deposit wallet.") );
+        ui->labelSTaTiCnodeControlMsgBox->setText(tr("WARNING! You need exactly 1000100 deposited to your STaTiC deposit wallet.") );
 
     } else {
       ui->pushButtonNewKeyPairs->setEnabled(true);
