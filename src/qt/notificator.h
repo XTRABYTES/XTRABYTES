@@ -1,5 +1,5 @@
-#ifndef BITCOIN_QT_NOTIFICATOR_H
-#define BITCOIN_QT_NOTIFICATOR_H
+#ifndef XTRABYTES_NOTIFICATOR_H
+#define XTRABYTES_NOTIFICATOR_H
 
 #if defined(HAVE_CONFIG_H)
 #include "bitcoin-config.h"
@@ -73,4 +73,4 @@ private:
 #endif
 };
 
-#endif // BITCOIN_NOTIFICATOR_H
+#endif // XTRABYTES_NOTIFICATOR_H
