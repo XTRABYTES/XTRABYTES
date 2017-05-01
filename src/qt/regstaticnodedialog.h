@@ -24,9 +24,11 @@ public:
     explicit RegSTaTiCnodeDialog(QWidget *parent = 0);
     ~RegSTaTiCnodeDialog();
 
+    void showEvent(QShowEvent *);
+
 private:
     Ui::RegSTaTiCnodeDialog *ui;
-    void RegSTaTiCnodeDialog::showEvent(QShowEvent *);
+
 
 signals:
       void requireUpdateRegSTaTiCnodeDialogMessages();

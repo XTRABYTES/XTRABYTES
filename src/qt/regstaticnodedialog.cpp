@@ -35,9 +35,8 @@ RegSTaTiCnodeDialog::RegSTaTiCnodeDialog(QWidget *parent) :
     ui->setupUi(this);
 
 #ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
-    ui->addButton->setIcon(QIcon());
-    ui->clearButton->setIcon(QIcon());
-    ui->sendButton->setIcon(QIcon());
+    ui->pushButtonNewKeyPairs->setIcon(QIcon());
+    ui->pushButtonRegSTaTiC->setIcon(QIcon());
 #endif
 
     ui->sTaTiCNodePrivateKeyLineEdit->setReadOnly(true);
