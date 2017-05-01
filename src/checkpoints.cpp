@@ -10,6 +10,7 @@
 #include "txdb.h"
 #include "main.h"
 #include "uint256.h"
+#include <iostream>
 
 namespace Checkpoints
 {
@@ -25,6 +26,11 @@ namespace Checkpoints
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         ( 0,      hashGenesisBlock )
+        ( 1000, uint256("0x99a05c08441b3e09cc7490ed3cc8fa8f36e36b393de7d11b85c9f2388736b4f4"))
+        ( 10000, uint256("0xb15cb418bb9c8768de2d5354188655ac659f9ad4315127a776e3242937f79dce"))
+        ( 20000, uint256("0x8acebee1d415b9e9e7e39caac053df36f49a8c50dcc657750fa6d78d20dcc620"))
+        ( 30000, uint256("0xc7552f9bcb7647f52a0ee933e4262c257c81ec3347e4c638f708cf937dbb1b18"))
+        ( 36550, uint256("0x52d311c34cd04c6b06564021e3059e8e93af425cc9a81b8d4405c537124d98c9"))
     ;
 
     // TestNet has no checkpoints
@@ -39,6 +45,10 @@ namespace Checkpoints
 
         MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
         if (i == checkpoints.end()) return true;
+        // if (hash != i->second) {
+        //   std::cout << hash.ToString();
+        //   assert(0);
+        // }
         return hash == i->second;
     }
 
