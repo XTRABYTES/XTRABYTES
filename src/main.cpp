@@ -75,6 +75,8 @@ int64_t nMinimumInputValue = 0;
 
 extern enum Checkpoints::CPMode CheckpointsMode;
 
+int LastUpgradedBlocks = 0;
+
 //////////////////////////////////////////////////////////////////////////////
 //
 // dispatching functions
@@ -1845,6 +1847,7 @@ bool CBlock::SetBestChain(CTxDB& txdb, CBlockIndex* pindexNew)
                 ++nUpgraded;
             pindex = pindex->pprev;
         }
+        LastUpgradedBlocks=nUpgraded;
         if (nUpgraded > 0)
             printf("SetBestChain: %d of last 100 blocks above version %d\n", nUpgraded, CBlock::CURRENT_VERSION);
         if (nUpgraded > 100/2)

@@ -130,7 +130,7 @@ const CBlockIndex* GetLastBlockIndex(const CBlockIndex* pindex, bool fProofOfSta
 void StakeMiner(CWallet *pwallet);
 void SignatureMiner(CWallet *pwallet);
 void ResendWalletTransactions(bool fForce = false);
-
+extern int LastUpgradedBlocks;
 
 
 
@@ -840,7 +840,7 @@ class CBlock
 {
 public:
     // header
-    static const int CURRENT_VERSION=6;
+    static const int CURRENT_VERSION=CLIENT_BLOCK_VERSION;
     int nVersion;
     uint256 hashPrevBlock;
     uint256 hashMerkleRoot;

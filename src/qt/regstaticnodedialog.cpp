@@ -101,8 +101,7 @@ void RegSTaTiCnodeDialog::UpdateRegSTaTiCnodeDialogMessages() {
         int64_t nReceived, nSent, nFee;
         wtx.GetAccountAmounts(strAccount, nReceived, nSent, nFee);
 
-        // FIXMEE accepted blocks between 25000-50000 !
-        if (nReceived != 0 && wtx.GetDepthInMainChain() >= 1 && wtx.GetBlocksToMaturity() == 0)
+        if (nReceived != 0 && wtx.GetDepthInMainChain() >= 1 && wtx.GetDepthInMainChain() <= 50000 && wtx.GetBlocksToMaturity() == 0)
             nBalance += nReceived;
         nBalance -= nSent + nFee;
     }

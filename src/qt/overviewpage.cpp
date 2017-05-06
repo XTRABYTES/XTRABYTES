@@ -7,7 +7,10 @@
 #include "transactiontablemodel.h"
 #include "transactionfilterproxy.h"
 #include "guiutil.h"
+#include "util.h"
+#include "main.h"
 #include "guiconstants.h"
+#include <QTimer>
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
@@ -128,6 +131,14 @@ OverviewPage::~OverviewPage()
     delete ui;
 }
 
+void OverviewPage::showEvent(QShowEvent *){
+	OverviewPage::UpgradeCheckTimer = new QTimer(this);
+   OverviewPage::UpgradeCheckTimer->setInterval(120*1000);
+   OverviewPage::UpgradeCheckTimer->setSingleShot(true);
+   connect(OverviewPage::UpgradeCheckTimer, SIGNAL(timeout()), this, SLOT(UpgradeCheckDialogMessages()));
+   OverviewPage::UpgradeCheckTimer->start();
+}
+
 void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance)
 {
     int unit = model->getOptionsModel()->getDisplayUnit();
@@ -194,4 +205,15 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
+}
+
+void OverviewPage::UpgradeCheckDialogMessages() {   
+   
+   if (LastUpgradedBlocks>50) {
+         QMessageBox::warning(this, tr("IMMEDIATE UPGRADE REQUIRED!"),
+            tr("<p>Your <b>XtraBYtes</b> wallet is non-functional and obsolete because it is <b>OUT OF DATE.</b></p><p>Please install the latest version from the link below:</p><p><a href=\"https://github.com/borzalom/XtraBYtes/releases\">https://github.com/borzalom/XtraBYtes/releases</a></p><p>Thank you !</p>"),
+            QMessageBox::Ok, QMessageBox::Ok);  
+            OverviewPage::UpgradeCheckTimer->setInterval(120*1000);
+            OverviewPage::UpgradeCheckTimer->start();              
+   }   
 }

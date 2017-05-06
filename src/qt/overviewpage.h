@@ -2,6 +2,7 @@
 #define OVERVIEWPAGE_H
 
 #include <QWidget>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -14,6 +15,8 @@ class WalletModel;
 class TxViewDelegate;
 class TransactionFilterProxy;
 
+extern int LastUpgradedBlocks;
+
 /** Overview ("home") page widget */
 class OverviewPage : public QWidget
 {
@@ -25,15 +28,18 @@ public:
 
     void setModel(WalletModel *model);
     void showOutOfSyncWarning(bool fShow);
+    QTimer *UpgradeCheckTimer;
 
 public slots:
     void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance);
+    void UpgradeCheckDialogMessages();
 
 signals:
     void transactionClicked(const QModelIndex &index);
 
 private:
     Ui::OverviewPage *ui;
+    void showEvent(QShowEvent *);
     WalletModel *model;
     qint64 currentBalance;
     qint64 currentStake;
