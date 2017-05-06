@@ -45,10 +45,10 @@ namespace Checkpoints
 
         MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
         if (i == checkpoints.end()) return true;
-         if (hash != i->second) {
-           std::cout << hash.ToString();
-           assert(0);
-         }
+        // if (hash != i->second) {
+        //   std::cout << hash.ToString();
+        //   assert(0);
+        // }
         return hash == i->second;
     }
 
