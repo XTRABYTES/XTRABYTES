@@ -29,27 +29,22 @@ double netPawratePrevious = -1;
 double pawratePrevious = -1;
 double hardnessPrevious = -1;
 double hardnessPrevious2 = -1;
-int stakeminPrevious = -1;
-int stakemaxPrevious = -1;
-QString stakecPrevious = "";
 QString rewardPrevious = "";
 
 void StatisticsPage::updateStatistics()
 {
+	 // FIXMEE need remove POW and POS info-s
     double pHardness = GetDifficulty();
-    double pHardness2 = GetDifficulty(GetLastBlockIndex(pindexBest, true));
-    int pPawrate = GetPoWMHashPS();
+    double pHardness2 = GetDifficulty(GetLastBlockIndex(pindexBest));
+    int pPawrate = 0; // FIXMEE
     double pPawrate2 = 0.000;
     int nHeight = pindexBest->nHeight;
     uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
-    pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
-    uint64_t nNetworkWeight = GetPoSKernelPS();
+    uint64_t nNetworkWeight = 0; // FIXMEE
     int volume = ((pindexBest->nMoneySupply)/100000000);
     int peers = this->model->getNumConnections();
     pPawrate2 = (double)pPawrate;
     QString height = QString::number(nHeight);
-    QString stakemin = QString::number(nMinWeight);
-    QString stakemax = QString::number(nNetworkWeight);
     QString phase = "";
     if (pindexBest->nHeight < 10300)
     {
@@ -86,25 +81,6 @@ void StatisticsPage::updateStatistics()
     ui->heightBox->setText(height);
     }
 
-    if(0 > stakeminPrevious)
-    {
-        ui->minBox->setText("<b><font color=\"green\">" + stakemin + "</font></b>");
-    } else {
-    ui->minBox->setText(stakemin);
-    }
-    if(0 > stakemaxPrevious)
-    {
-        ui->maxBox->setText("<b><font color=\"green\">" + stakemax + "</font></b>");
-    } else {
-    ui->maxBox->setText(stakemax);
-    }
-
-    if(phase != stakecPrevious)
-    {
-        ui->cBox->setText("<b><font color=\"green\">" + phase + "</font></b>");
-    } else {
-    ui->cBox->setText(phase);
-    }
     
     if(subsidy != rewardPrevious)
     {
@@ -170,9 +146,6 @@ void StatisticsPage::updateStatistics()
 void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, QString subsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume)
 {
     heightPrevious = nHeight;
-    stakeminPrevious = nMinWeight;
-    stakemaxPrevious = nNetworkWeight;
-    stakecPrevious = phase;
     rewardPrevious = subsidy;
     hardnessPrevious = pHardness;
     hardnessPrevious2 = pHardness2;

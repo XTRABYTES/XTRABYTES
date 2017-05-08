@@ -31,7 +31,7 @@ public:
     QTimer *UpgradeCheckTimer;
 
 public slots:
-    void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance);
+    void setBalance(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance);
     void UpgradeCheckDialogMessages();
 
 signals:
@@ -42,7 +42,6 @@ private:
     void showEvent(QShowEvent *);
     WalletModel *model;
     qint64 currentBalance;
-    qint64 currentStake;
     qint64 currentUnconfirmedBalance;
     qint64 currentImmatureBalance;
 

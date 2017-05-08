@@ -37,9 +37,6 @@ public:
     int heightPrevious;
     int connectionPrevious;
     int volumePrevious;
-    int stakeminPrevious;
-    int stakemaxPrevious;
-    QString stakecPrevious;
     QString rewardPrevious;
     double netPawratePrevious;
     QString pawratePrevious;

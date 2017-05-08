@@ -202,7 +202,6 @@ HEADERS += src/qt/xtrabytesgui.h \
     src/sync.h \
     src/util.h \
     src/uint256.h \
-    src/kernel.h \
     src/scrypt.h \
     src/pbkdf2.h \
     src/serialize.h \
@@ -336,7 +335,6 @@ SOURCES += src/qt/xtrabytes.cpp src/qt/xtrabytesgui.cpp \
     src/xtrabytesrpc.cpp \
     src/rpcdump.cpp \
     src/rpcnet.cpp \
-    src/rpcmining.cpp \
     src/rpcwallet.cpp \
     src/rpcblockchain.cpp \
     src/rpcrawtransaction.cpp \
@@ -353,7 +351,6 @@ SOURCES += src/qt/xtrabytes.cpp src/qt/xtrabytesgui.cpp \
     src/qt/qtipcserver.cpp \
     src/qt/rpcconsole.cpp \
     src/noui.cpp \
-    src/kernel.cpp \
     src/scrypt-arm.S \
     src/scrypt-x86.S \
     src/scrypt-x86_64.S \

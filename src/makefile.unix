@@ -137,7 +137,6 @@ OBJS= \
     obj/xtrabytesrpc.o \
     obj/rpcdump.o \
     obj/rpcnet.o \
-    obj/rpcmining.o \
     obj/rpcwallet.o \
     obj/rpcblockchain.o \
     obj/rpcrawtransaction.o \
@@ -147,7 +146,6 @@ OBJS= \
     obj/wallet.o \
     obj/walletdb.o \
     obj/noui.o \
-    obj/kernel.o \
     obj/pbkdf2.o \
     obj/scrypt.o \
     obj/scrypt-arm.o \
