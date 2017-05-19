@@ -210,8 +210,8 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 void OverviewPage::UpgradeCheckDialogMessages() {   
    
    if (LastUpgradedBlocks>50) {
-         QMessageBox::warning(this, tr("IMMEDIATE UPGRADE REQUIRED!"),
-            tr("<p>Your <b>XtraBYtes</b> wallet is non-functional and obsolete because it is <b>OUT OF DATE.</b></p><p>Please install the latest version from the link below:</p><p><a href=\"https://github.com/borzalom/XtraBYtes/releases\">https://github.com/borzalom/XtraBYtes/releases</a></p><p>Thank you !</p>"),
+         QMessageBox::warning(this, tr("IMMEDIATE UPGRADE REQUIRED!"),         
+            tr("<p>Your <b>XtraBYtes</b> wallet is <b>OUT OF DATE.</b></p><p>Update <b>NOW</b> to avoid losing functionality and becoming obsolete.</p><p>Please install the latest version from the link below:</p><p><a href=\"https://github.com/borzalom/XtraBYtes/releases\">https://github.com/borzalom/XtraBYtes/releases</a></p><p>Thank you !</p>"),
             QMessageBox::Ok, QMessageBox::Ok);  
             OverviewPage::UpgradeCheckTimer->setInterval(120*1000);
             OverviewPage::UpgradeCheckTimer->start();              
