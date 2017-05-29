@@ -6,38 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
-    <height>582</height>
+    <width>770</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(62, 167, 244);</string>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../xtrabytes.qrc">:/icons/coinbg</pixmap>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
-      </widget>
-     </item>
      <item>
       <widget class="QFrame" name="frame">
        <property name="frameShape">
@@ -65,11 +43,6 @@
           </item>
           <item>
            <widget class="QLabel" name="labelWalletStatus">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-             </font>
-            </property>
             <property name="toolTip">
              <string>The displayed information may be out of date. Your wallet automatically synchronizes with the xtrabytes network after a connection is established, but this process has not completed yet.</string>
             </property>
@@ -112,12 +85,6 @@
           </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Spendable:</string>
             </property>
@@ -147,12 +114,6 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Stake:</string>
             </property>
@@ -182,12 +143,6 @@
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Unconfirmed:</string>
             </property>
@@ -217,12 +172,6 @@
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="labelImmatureText">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Immature:</string>
             </property>
@@ -256,12 +205,6 @@
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="labelTotalText">
-            <property name="font">
-             <font>
-              <family>Roboto</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
             <property name="text">
              <string>Total:</string>
             </property>
@@ -306,6 +249,25 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../xtrabytes.qrc">:/icons/coinbg</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -399,8 +361,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../xtrabytes.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
