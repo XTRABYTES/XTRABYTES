@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About xtrabytes</string>
+   <string>About XtraBYtes</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -92,7 +92,7 @@
        </property>
        <property name="text">
         <string>Copyright © 2009-2014 The Bitcoin Developers
-Copyright © 2014 The xtrabytes developers</string>
+Copyright © 2017 The XtraBYtes Dev Team</string>
        </property>
        <property name="textInteractionFlags">
         <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
