@@ -1,4 +1,4 @@
-XtraBYtes 1.1.0.1
+XtraBYtes 1.1.0.3
 
 Intro
 
@@ -13,7 +13,7 @@ the block. There are a total of 650 million XBY and there will never be more.
 
 Setup
 
-How to Compile XtraBYtes v1.1.0.1 for Raspberry Pi
+How to Compile XtraBYtes v1.1.0.3 for Raspberry Pi
 
 If you have just received your PI and need help setting up an environment to run XtraBYtes on, follow the below 2 steps:
 
