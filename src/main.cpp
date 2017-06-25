@@ -2520,7 +2520,7 @@ bool LoadBlockIndex(bool fAllowNew)
         pchMessageStart[0] = 0xa1;
         pchMessageStart[1] = 0xa0;
         pchMessageStart[2] = 0xa2;
-        pchMessageStart[3] = 0xa3;
+        pchMessageStart[3] = 0xa1;
 
         bnProofOfWorkLimit = bnProofOfWorkLimitTestNet; // 0x0000ffff PoW base target is fixed in testnet
         nStakeMinAge = 20 * 60; // test net min age is 20 min
