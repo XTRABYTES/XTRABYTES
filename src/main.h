@@ -28,7 +28,7 @@ class CNode;
 
 extern const char* POSIGN_FEE_ADDRESS;	
 extern const char* ICO_TARGET_ADDRESS;
-
+extern int64_t GetMinTxFee();
 
 static const int LAST_POW_BLOCK = 10000000; // Approx. 7500 Days of Proof-Of-Work
 
@@ -37,8 +37,6 @@ static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const unsigned int MAX_INV_SZ = 50000;
-static const int64_t MIN_TX_FEE = 100 * COIN;
-static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64_t MAX_MONEY = 650000000 * COIN; // 650M max coins
 static const int64_t STaTiC_DEPOSIT = 500000 * COIN; // Required deposit = 500.000/STaTiC
 static const int64_t COIN_YEAR_REWARD = 10 * CENT; // 10% per year
@@ -86,7 +84,6 @@ extern unsigned char pchMessageStart[4];
 extern std::map<uint256, CBlock*> mapOrphanBlocks;
 
 // Settings
-extern int64_t nTransactionFee;
 extern int64_t nReserveBalance;
 extern int64_t nMinimumInputValue;
 extern bool fUseFastIndex;

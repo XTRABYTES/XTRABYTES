@@ -173,9 +173,9 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         return AmountExceedsBalance;
     }
 
-    if((total + nTransactionFee) > nBalance)
+    if((total + GetMinTxFee()) > nBalance)
     {
-        return SendCoinsReturn(AmountWithFeeExceedsBalance, nTransactionFee);
+        return SendCoinsReturn(AmountWithFeeExceedsBalance, GetMinTxFee());
     }
 
     {

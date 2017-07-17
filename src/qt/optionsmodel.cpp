@@ -46,7 +46,6 @@ void OptionsModel::Init()
     fMinimizeToTray = settings.value("fMinimizeToTray", false).toBool();
     fMinimizeOnClose = settings.value("fMinimizeOnClose", false).toBool();
     fCoinControlFeatures = settings.value("fCoinControlFeatures", false).toBool();
-    nTransactionFee = settings.value("nTransactionFee").toLongLong();
     nReserveBalance = settings.value("nReserveBalance").toLongLong();
     language = settings.value("language", "").toString();
 
@@ -77,7 +76,7 @@ bool OptionsModel::Upgrade()
     CWalletDB walletdb(strWalletFileName);
 
     QList<QString> intOptions;
-    intOptions << "nDisplayUnit" << "nTransactionFee" << "nReserveBalance";
+    intOptions << "nDisplayUnit" << "nReserveBalance";
     foreach(QString key, intOptions)
     {
         int value = 0;
@@ -163,7 +162,7 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
         case ProxySocksVersion:
             return settings.value("nSocksVersion", 5);
         case Fee:
-            return QVariant((qint64) nTransactionFee);
+            return QVariant((qint64) GetMinTxFee());
         case ReserveBalance:
             return QVariant((qint64) nReserveBalance);
         case DisplayUnit:
@@ -242,11 +241,6 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             successful = ApplyProxySettings();
         }
         break;
-        case Fee:
-            nTransactionFee = value.toLongLong();
-            settings.setValue("nTransactionFee", (qint64) nTransactionFee);
-            emit transactionFeeChanged(nTransactionFee);
-            break;
         case ReserveBalance:
             nReserveBalance = value.toLongLong();
             settings.setValue("nReserveBalance", (qint64) nReserveBalance);
@@ -287,7 +281,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 
 qint64 OptionsModel::getTransactionFee()
 {
-    return nTransactionFee;
+    return GetMinTxFee();
 }
 
 qint64 OptionsModel::getReserveBalance()

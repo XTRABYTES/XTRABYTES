@@ -68,8 +68,18 @@ CScript COINBASE_FLAGS;
 
 const string strMessageMagic = "xtrabytes Signed Message:\n";
 
+// MIN_TX_FEE value 
+int64_t GetMinTxFee() {
+	int64_t MIN_TX_FEE;
+   if(pindexBest->nHeight < 150000 ) {
+       MIN_TX_FEE = 100 * COIN;
+   } else {
+       MIN_TX_FEE = 50 * COIN;
+   }
+   return MIN_TX_FEE;
+}
+
 // Settings
-int64_t nTransactionFee = MIN_TX_FEE;
 int64_t nReserveBalance = 0;
 int64_t nMinimumInputValue = 0;
 
@@ -514,13 +524,12 @@ bool CTransaction::CheckTransaction() const
 
 int64_t CTransaction::GetMinFee(unsigned int nBlockSize, enum GetMinFee_mode mode, unsigned int nBytes) const
 {
-    // Base fee is either MIN_TX_FEE or MIN_RELAY_TX_FEE
-    int64_t nBaseFee = (mode == GMF_RELAY) ? MIN_RELAY_TX_FEE : MIN_TX_FEE;
+    int64_t nBaseFee = GetMinTxFee();
 
     unsigned int nNewBlockSize = nBlockSize + nBytes;
     int64_t nMinFee = (1 + (int64_t)nBytes / 1000) * nBaseFee;
 
-    // To limit dust spam, require MIN_TX_FEE/MIN_RELAY_TX_FEE if any output is less than 0.01
+    // Limit dust spam
     if (nMinFee < nBaseFee)
     {
         BOOST_FOREACH(const CTxOut& txout, vout)
@@ -641,7 +650,7 @@ bool CTxMemPool::accept(CTxDB& txdb, CTransaction &tx, bool fCheckInputs,
         // Continuously rate-limit free transactions
         // This mitigates 'penny-flooding' -- sending thousands of free transactions just to
         // be annoying or make others' transactions take longer to confirm.
-        if (nFees < MIN_RELAY_TX_FEE)
+        if (nFees < GetMinTxFee())
         {
             static CCriticalSection cs;
             static double dFreeCount;
