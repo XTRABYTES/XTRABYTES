@@ -36,6 +36,7 @@ signals:
 
 private slots:
 	void pushButtonNewKeyPairsClicked();
+	void pushButtonTestKeyPairsClicked();
    void pushButtonRegSTaTiCClicked();
 	void UpdateRegSTaTiCnodeDialogMessages();
 	

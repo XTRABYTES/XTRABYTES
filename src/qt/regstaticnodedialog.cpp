@@ -42,10 +42,12 @@ RegSTaTiCnodeDialog::RegSTaTiCnodeDialog(QWidget *parent) :
     ui->sTaTiCNodePrivateKeyLineEdit->setReadOnly(true);
     ui->sTaTiCNodePublicKeyLineEdit->setReadOnly(true);
     ui->sTaTiCNodeIDLineEdit->setReadOnly(true);
-    ui->pushButtonNewKeyPairs->setEnabled(false); 
+    ui->pushButtonNewKeyPairs->setEnabled(false);
+    ui->pushButtonTestKeyPairs->setEnabled(true); 
     ui->pushButtonRegSTaTiC->setEnabled(false);
  
     connect(ui->pushButtonNewKeyPairs, SIGNAL(clicked()), this, SLOT(pushButtonNewKeyPairsClicked()));
+    connect(ui->pushButtonTestKeyPairs, SIGNAL(clicked()), this, SLOT(pushButtonTestKeyPairsClicked()));
     connect(ui->pushButtonRegSTaTiC, SIGNAL(clicked()), this, SLOT(pushButtonRegSTaTiCClicked()));
     connect(this, SIGNAL(requireUpdateRegSTaTiCnodeDialogMessages()), this, SLOT(UpdateRegSTaTiCnodeDialogMessages()));    
     
@@ -175,6 +177,40 @@ void RegSTaTiCnodeDialog::pushButtonNewKeyPairsClicked()
     }
 }
 
+
+void RegSTaTiCnodeDialog::pushButtonTestKeyPairsClicked()
+{	    
+
+      CKey key;
+      key.MakeNewKey(false);
+
+      CPrivKey vchPrivKey = key.GetPrivKey();
+    
+      std::vector<unsigned char> PrivKey = ParseHex(HexStr<CPrivKey::iterator>(vchPrivKey.begin(), vchPrivKey.end()));
+            
+      QString sTaTiCNodePrivateKey = QString::fromUtf8( EncodeBase58( PrivKey ).c_str() );
+      ui->sTaTiCNodePrivateKeyLineEdit->setText(sTaTiCNodePrivateKey);
+ 
+      std::vector<unsigned char> PublicKey = ParseHex(HexStr(key.GetPubKey().Raw()));
+            
+      QString sTaTiCNodePublicKey = QString::fromUtf8( EncodeBase58( PublicKey ).c_str() );
+      ui->sTaTiCNodePublicKeyLineEdit->setText(sTaTiCNodePublicKey);
+      
+      std::stringstream clipboardStringStream;
+      
+      clipboardStringStream 	      
+      								
+      								<< "TEST Node Public Key: " << ui->sTaTiCNodePublicKeyLineEdit->text().toStdString() << endl
+      								<< "TEST Node Private Key: " << ui->sTaTiCNodePrivateKeyLineEdit->text().toStdString() << endl;
+      								    
+  
+    	  QApplication::clipboard()->setText(QString::fromStdString(clipboardStringStream.str()));
+        QMessageBox::warning(this, tr("CLIPBOARD WARNING!"),
+            tr("Your test keys is copied to your clipboard."),
+            QMessageBox::Ok, QMessageBox::Ok);
+        return;
+    
+}
 
 
 void RegSTaTiCnodeDialog::pushButtonRegSTaTiCClicked() {
