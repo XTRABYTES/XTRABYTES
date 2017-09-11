@@ -131,6 +131,26 @@ You now have a fully functional wallet. Enjoy!
 
 ![Image](https://github.com/borzalom/XtraBYtes/blob/master/etc/images/1wallet.png?raw=true)
 
+## XTRABYTES social links:
+
+FACEBOOK - https://www.facebook.com/XTRABYTESOfficial/
+
+TWITTER - https://twitter.com/xtrabytes
+
+REDDIT - https://www.reddit.com/r/xtrabytes
+
+YOUTUBE - https://www.youtube.com/c/XTRABYTESOFFICIAL
+
+STEEM - https://steemit.com/@xtrabytes
+
+MEDIUM - https://medium.com/@XTRABYTES
+
+INSTAGRAM - https://www.instagram.com/xtrabytes
+
+VIMEO - https://vimeo.com/xtrabytes
+
+SLACK - https://xtrabytes.herokuapp.com
+
 ***
 
 Version 1.0
