@@ -88,10 +88,9 @@ process can take anywhere from 15 minutes to a few hours or more.
 
 Join Slack for more help and information. The invite link is here:  https://xtrabytes.herokuapp.com
 
-XTRABYTES social links:
+### XTRABYTES social links:
 
 FACEBOOK - https://www.facebook.com/XTRABYTESOfficial/
-
 TWITTER - https://twitter.com/xtrabytes
 
 REDDIT - https://www.reddit.com/r/xtrabytes
