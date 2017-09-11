@@ -133,23 +133,15 @@ You now have a fully functional wallet. Enjoy!
 
 ## XTRABYTES social links:
 
-FACEBOOK - https://www.facebook.com/XTRABYTESOfficial/
-
-TWITTER - https://twitter.com/xtrabytes
-
-REDDIT - https://www.reddit.com/r/xtrabytes
-
-YOUTUBE - https://www.youtube.com/c/XTRABYTESOFFICIAL
-
-STEEM - https://steemit.com/@xtrabytes
-
-MEDIUM - https://medium.com/@XTRABYTES
-
-INSTAGRAM - https://www.instagram.com/xtrabytes
-
-VIMEO - https://vimeo.com/xtrabytes
-
-SLACK - https://xtrabytes.herokuapp.com
+**FACEBOOK** - https://www.facebook.com/XTRABYTESOfficial/ <br />
+**TWITTER** - https://twitter.com/xtrabytes <br />
+**REDDIT** - https://www.reddit.com/r/xtrabytes <br />
+**YOUTUBE** - https://www.youtube.com/c/XTRABYTESOFFICIAL <br />
+**STEEM** - https://steemit.com/@xtrabytes <br />
+**MEDIUM** - https://medium.com/@XTRABYTES <br />
+**INSTAGRAM** - https://www.instagram.com/xtrabytes <br />
+**VIMEO** - https://vimeo.com/xtrabytes <br />
+**SLACK** - https://xtrabytes.herokuapp.com <br />
 
 ***
 
