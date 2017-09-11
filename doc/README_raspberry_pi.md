@@ -1,8 +1,8 @@
-## XTRABYTES
+## XTRABYTES Raspberry Pi Wallet
 
 ### Intro
 
-XtraBYtes is a free open source peer-to-peer electronic cash system that is
+XTRABYTES is a free open source peer-to-peer electronic cash system that is
 completely decentralized, without the need for a central server or trusted
 parties.  Users hold the crypto keys to their own money and transact directly
 with each other, with the help of a P2P network to check for double-spending.
@@ -13,9 +13,9 @@ the block. There are a total of 650 million XBY and there will never be more.
 
 ### Setup
 
-#### How to Compile XtraBYtes v1.1.0.3 for Raspberry Pi
+#### How to compile the XTRABYTES wallet for Raspberry Pi
 
-If you have just received your PI and need help setting up an environment to run XtraBYtes on, follow the below 2 steps:
+If you have just received your Pi and need help setting up an environment to run XTRABYTES on, follow the below 2 steps:
 
 1. Download NOOBS distribution from https://www.raspberrypi.org/downloads/noobs/ and extract to your desktop.
 2. Copy the files to your microsd card. Eject the microsd card and put it into your pi and power it up. When it comes up, choose "Raspbian with PIXEL" and click Install.
@@ -51,7 +51,7 @@ enter
 pi@raspnode~$ sudo /etc/init.d/dphys-swapfile restart
 ```
 
-Then go into your XtraBYtes source directory
+Then go into your XTRABYTES source directory
 
 ```
 pi@raspnode~$ cd ~/XtraBYtes/src
@@ -82,7 +82,7 @@ pi@raspnode~$  ./xtrabytesd getinfo
 
 ### Info
 
-XtraBYtes Core downloads and stores the entire history of XtraBYtes transactions;
+XTRABYTES Core downloads and stores the entire history of XtraBYtes transactions;
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from 15 minutes to a few hours or more.
 
