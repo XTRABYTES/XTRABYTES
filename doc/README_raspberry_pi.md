@@ -1,6 +1,6 @@
-## XTRABYTES Raspberry Pi Wallet
+# XTRABYTES Raspberry Pi Wallet
 
-### Intro
+## Intro
 
 XTRABYTES is a free open source peer-to-peer electronic cash system that is
 completely decentralized, without the need for a central server or trusted
@@ -11,9 +11,9 @@ XTRABYTES has created something called Proof of Signature which ensure that
 are signed by the network of Master Nodes after verifying the transactions in 
 the block. There are a total of 650 million XBY and there will never be more.
 
-### Setup
+## Setup
 
-#### How to compile the XTRABYTES wallet for Raspberry Pi
+### How to compile the XTRABYTES wallet for Raspberry Pi
 
 If you have just received your Pi and need help setting up an environment to run XTRABYTES on, follow the below 2 steps:
 
@@ -80,7 +80,7 @@ Then wait a few mins, and test that it's working:
 pi@raspnode~$  ./xtrabytesd getinfo
 ```
 
-### Info
+## Info
 
 XTRABYTES Core downloads and stores the entire history of XTRABYTES transactions;
 depending on the speed of your computer and network connection, the synchronization
@@ -88,7 +88,7 @@ process can take anywhere from 15 minutes to a few hours or more.
 
 Join Slack for more help and information. The invite link is here:  https://xtrabytes.herokuapp.com
 
-### XTRABYTES social links:
+## XTRABYTES social links:
 
 FACEBOOK - https://www.facebook.com/XTRABYTESOfficial/
 
@@ -105,5 +105,7 @@ MEDIUM - https://medium.com/@XTRABYTES
 INSTAGRAM - https://www.instagram.com/xtrabytes
 
 VIMEO - https://vimeo.com/xtrabytes
+
+***
 
 Doc Version: 1.01
