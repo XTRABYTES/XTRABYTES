@@ -1,6 +1,5 @@
 ---
-title: "XTRABYTES Qt Wallet GUI Compilation Guide"
-output: github_document
+# XTRABYTES Qt Wallet GUI Compilation Guide
 ---
 
 ## Building the XTRABYTES wallet on Ubuntu/Debian
