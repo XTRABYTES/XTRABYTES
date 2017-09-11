@@ -26,8 +26,11 @@ load up the terminal and run the following commands:
 
 ```
 pi@raspnode~$ sudo apt-get update; sudo apt-get upgrade -y; sudo apt-get install -y autoconf libevent-dev libtool libssl-dev libboost-all-dev libminiupnpc-dev git qt4-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libdb++-dev
+
 pi@raspnode~$ cd
+
 pi@raspnode~$ git clone https://github.com/borzalom/XtraBYtes.git
+
 pi@raspnode~$ sudo nano /etc/dphys-swapfile
 ```
 
@@ -55,8 +58,11 @@ Then go into your XTRABYTES source directory
 
 ```
 pi@raspnode~$ cd ~/XtraBYtes/src
+
 pi@raspnode~$ mkdir obj
+
 pi@raspnode~$ chmod -R 777 ~/XtraBYtes
+
 pi@raspnode~$ make -f makefile.unix
 ```
 
