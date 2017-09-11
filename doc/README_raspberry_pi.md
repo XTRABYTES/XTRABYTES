@@ -1,6 +1,6 @@
-XtraBYtes 1.1.0.4
+## XTRABYTES
 
-Intro
+### Intro
 
 XtraBYtes is a free open source peer-to-peer electronic cash system that is
 completely decentralized, without the need for a central server or trusted
@@ -11,9 +11,9 @@ XtraBYtes has created something called Proof of Signature which ensure that
 are signed by the network of Master Nodes after verifying the transactions in 
 the block. There are a total of 650 million XBY and there will never be more.
 
-Setup
+### Setup
 
-How to Compile XtraBYtes v1.1.0.3 for Raspberry Pi
+#### How to Compile XtraBYtes v1.1.0.3 for Raspberry Pi
 
 If you have just received your PI and need help setting up an environment to run XtraBYtes on, follow the below 2 steps:
 
@@ -80,7 +80,7 @@ Then wait a few mins, and test that it's working:
 pi@raspnode~$  ./xtrabytesd getinfo
 ```
 
-Info
+### Info
 
 XtraBYtes Core downloads and stores the entire history of XtraBYtes transactions;
 depending on the speed of your computer and network connection, the synchronization
