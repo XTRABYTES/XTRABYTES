@@ -86,4 +86,17 @@ XTRABYTES Core downloads and stores the entire history of XTRABYTES transactions
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from 15 minutes to a few hours or more.
 
-Join Slack for more help and information. The invite link is here:  https://young-basin-20186.herokuapp.com/
+Join Slack for more help and information. The invite link is here:  https://xtrabytes.herokuapp.com
+
+XTRABYTES social links:
+
+FACEBOOK - https://www.facebook.com/XTRABYTESOfficial/
+TWITTER - https://twitter.com/xtrabytes
+REDDIT - https://www.reddit.com/r/xtrabytes
+YOUTUBE - https://www.youtube.com/c/XTRABYTESOFFICIAL
+STEEM - https://steemit.com/@xtrabytes
+MEDIUM - https://medium.com/@XTRABYTES
+INSTAGRAM - https://www.instagram.com/xtrabytes
+VIMEO - https://vimeo.com/xtrabytes
+
+Doc Version: 1.01
