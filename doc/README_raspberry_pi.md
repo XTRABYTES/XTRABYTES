@@ -92,10 +92,11 @@ XTRABYTES Core downloads and stores the entire history of XTRABYTES transactions
 depending on the speed of your computer and network connection, the synchronization
 process can take anywhere from 15 minutes to a few hours or more.
 
-Join Slack for more help and information. The invite link is here:  https://xtrabytes.herokuapp.com
+Join Slack for more help and information. Please visit our bitcointalk ANN at https://bitcointalk.org/index.php?topic=1864397.0 and request an invitation. Send a DM to either: fishfishfish313, BRYAN_K, rule144, cefinnell01 or CCRevolution (in the forum) and we will manually add you to the Slack. Thank you!
 
 ## XTRABYTES social links:
 
+**BITCOINTALK FORUM** - https://bitcointalk.org/index.php?topic=1864397.0 <br />
 **FACEBOOK** - https://www.facebook.com/XTRABYTESOfficial/ <br />
 **TWITTER** - https://twitter.com/xtrabytes <br />
 **REDDIT** - https://www.reddit.com/r/xtrabytes <br />
