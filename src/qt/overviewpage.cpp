@@ -147,7 +147,7 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
     ui->labelBalance->setText(XtraBYtesUnits::formatWithUnit(unit, balance));
-    ui->labelStake->setText(XtraBYtesUnits::formatWithUnit(unit, stake));
+//    ui->labelStake->setText(XtraBYtesUnits::formatWithUnit(unit, stake));
     ui->labelUnconfirmed->setText(XtraBYtesUnits::formatWithUnit(unit, unconfirmedBalance));
     ui->labelImmature->setText(XtraBYtesUnits::formatWithUnit(unit, immatureBalance));
     ui->labelTotal->setText(XtraBYtesUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
@@ -211,7 +211,7 @@ void OverviewPage::UpgradeCheckDialogMessages() {
    
    if (LastUpgradedBlocks>50) {
          QMessageBox::warning(this, tr("IMMEDIATE UPGRADE REQUIRED!"),         
-            tr("<p>Your <b>XtraBYtes</b> wallet is <b>OUT OF DATE.</b></p><p>Update <b>NOW</b> to avoid losing functionality and becoming obsolete.</p><p>Please install the latest version from the link below:</p><p><a href=\"https://github.com/borzalom/XtraBYtes/releases\">https://github.com/borzalom/XtraBYtes/releases</a></p><p>Thank you !</p>"),
+            tr("<p>Your <b>XTRABYTES</b> wallet is <b>OUT OF DATE.</b></p><p>Update <b>NOW</b> to avoid losing functionality and becoming obsolete.</p><p>Please install the latest version from the link below:</p><p><a href=\"https://github.com/borzalom/XtraBYtes/releases\">https://github.com/borzalom/XtraBYtes/releases</a></p><p>Thank you !</p>"),
             QMessageBox::Ok, QMessageBox::Ok);  
             OverviewPage::UpgradeCheckTimer->setInterval(120*1000);
             OverviewPage::UpgradeCheckTimer->start();              

@@ -13,7 +13,7 @@ class QDateTime;
 class QTimer;
 QT_END_NAMESPACE
 
-/** Model for XtraBYtes network client. */
+/** Model for XTRABYTES network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT

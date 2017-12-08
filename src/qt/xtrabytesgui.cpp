@@ -81,8 +81,9 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
     notificator(0),
     rpcConsole(0)
 {
-    resize(850, 550);
-    setWindowTitle(tr("xtrabytes") + " - " + tr("Wallet"));
+    resize(1003, 552);
+    setWindowTitle(tr("XTRABYTES") + " - " + tr("Community Wallet"));
+    qApp->setStyleSheet("QMainWindow { background-image:url(:images/bkgsplash) ;background-repeat: no-repeat; background-position:center;border:none;color: #C02F1D; font: 10pt Roboto;font-family:'Open Sans,sans-serif'; }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/xtrabytes"));
     setWindowIcon(QIcon(":icons/xtrabytes"));
@@ -156,20 +157,20 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(labelEncryptionIcon);
     frameBlocksLayout->addStretch();
-    frameBlocksLayout->addWidget(labelStakingIcon);
+//    frameBlocksLayout->addWidget(labelStakingIcon);
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(labelConnectionsIcon);
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(labelBlocksIcon);
     frameBlocksLayout->addStretch();
 
-    if (GetBoolArg("-staking", true))
-    {
-        QTimer *timerStakingIcon = new QTimer(labelStakingIcon);
-        connect(timerStakingIcon, SIGNAL(timeout()), this, SLOT(updateStakingIcon()));
-        timerStakingIcon->start(30 * 1000);
-        updateStakingIcon();
-    }
+//    if (GetBoolArg("-staking", true))
+//    {
+//       QTimer *timerStakingIcon = new QTimer(labelStakingIcon);
+//        connect(timerStakingIcon, SIGNAL(timeout()), this, SLOT(updateStakingIcon()));
+//        timerStakingIcon->start(30 * 1000);
+//       updateStakingIcon();
+//    }
 
     // Progress bar and label for blocks download
     progressBarLabel = new QLabel();
@@ -235,24 +236,24 @@ void XtraBYtesGUI::createActions()
     statisticsAction->setCheckable(true);
     tabGroup->addAction(statisticsAction);
 
-    chatAction = new QAction(QIcon(":/icons/social"), tr("&Social"), this);
-    chatAction->setToolTip(tr("View chat"));
+    chatAction = new QAction(QIcon(":/icons/social"), tr("&Forum / Social Links"), this);
+    chatAction->setToolTip(tr("View XTRABYTES links"));
     chatAction->setCheckable(true);
     tabGroup->addAction(chatAction);
 
-    RegSTaTiCnodeAction = new QAction(QIcon(":/icons/regstatic"), tr("&Register STaTiC node"), this);
-    RegSTaTiCnodeAction->setToolTip(tr("Register XtraBYtes address at STaTiC node"));
+    RegSTaTiCnodeAction = new QAction(QIcon(":/icons/regstatic"), tr("&Register STATIC Node"), this);
+    RegSTaTiCnodeAction->setToolTip(tr("Register XTRABYTES address at STaTiC node"));
     RegSTaTiCnodeAction->setCheckable(true);
     RegSTaTiCnodeAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(RegSTaTiCnodeAction);
 
-    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send coins"), this);
-    sendCoinsAction->setToolTip(tr("Send coins to a xtrabytes address"));
+    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send Coins"), this);
+    sendCoinsAction->setToolTip(tr("Send coins to a XTRABYTES address"));
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive coins"), this);
+    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive Coins"), this);
     receiveCoinsAction->setToolTip(tr("Show the list of addresses for receiving payments"));
     receiveCoinsAction->setCheckable(true);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
@@ -297,14 +298,14 @@ void XtraBYtesGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutAction = new QAction(QIcon(":/icons/xtrabytes"), tr("&About xtrabytes"), this);
-    aboutAction->setToolTip(tr("Show information about xtrabytes"));
+    aboutAction = new QAction(QIcon(":/icons/xtrabytes"), tr("&About XTRABYTES"), this);
+    aboutAction->setToolTip(tr("Show information about XTRABYTES"));
     aboutAction->setMenuRole(QAction::AboutRole);
-    aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
+    aboutQtAction = new QAction(QIcon(":/icons/qtlogo"), tr("About &Qt"), this);
     aboutQtAction->setToolTip(tr("Show information about Qt"));
     aboutQtAction->setMenuRole(QAction::AboutQtRole);
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Options..."), this);
-    optionsAction->setToolTip(tr("Modify configuration options for xtrabytes"));
+    optionsAction->setToolTip(tr("Modify configuration options for XTRABYTES"));
     optionsAction->setMenuRole(QAction::PreferencesRole);
     toggleHideAction = new QAction(QIcon(":/icons/xtrabytes"), tr("&Show / Hide"), this);
     encryptWalletAction = new QAction(QIcon(":/icons/lock_closed"), tr("&Encrypt Wallet..."), this);
@@ -353,7 +354,7 @@ void XtraBYtesGUI::createMenuBar()
     // Configure the menus
     QMenu *file = appMenuBar->addMenu(tr("&File"));
     file->addAction(backupWalletAction);
-    file->addAction(exportAction);
+//    file->addAction(exportAction);
     file->addAction(signMessageAction);
     file->addAction(verifyMessageAction);
     file->addSeparator();
@@ -384,13 +385,15 @@ void XtraBYtesGUI::createToolBars()
     toolbar->addAction(receiveCoinsAction);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
-	toolbar->addAction(statisticsAction);
-	toolbar->addAction(blockAction);
 	toolbar->addAction(chatAction);
+	toolbar->addAction(statisticsAction);
+//	toolbar->addAction(blockAction);
 
-    QToolBar *toolbar2 = addToolBar(tr("Actions toolbar"));
-    toolbar2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    toolbar2->addAction(exportAction);
+//	toolbar->setStyleSheet("color: black; ");
+	toolbar->setMovable(false);
+//    QToolBar *toolbar2 = addToolBar(tr("Actions toolbar"));
+//    toolbar2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    toolbar2->addAction(exportAction);
 }
 
 void XtraBYtesGUI::setClientModel(ClientModel *clientModel)
@@ -410,7 +413,7 @@ void XtraBYtesGUI::setClientModel(ClientModel *clientModel)
 #endif
             if(trayIcon)
             {
-                trayIcon->setToolTip(tr("xtrabytes client") + QString(" ") + tr("[testnet]"));
+                trayIcon->setToolTip(tr("XTRABYTES client") + QString(" ") + tr("[testnet]"));
                 trayIcon->setIcon(QIcon(":/icons/toolbar_testnet"));
                 toggleHideAction->setIcon(QIcon(":/icons/toolbar_testnet"));
             }
@@ -473,7 +476,7 @@ void XtraBYtesGUI::createTrayIcon()
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setToolTip(tr("xtrabytes client"));
+    trayIcon->setToolTip(tr("XTRABYTES client"));
     trayIcon->setIcon(QIcon(":/icons/toolbar"));
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
@@ -544,7 +547,7 @@ void XtraBYtesGUI::setNumConnections(int count)
     default: icon = ":/icons/connect_4"; break;
     }
     labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
-    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to xtrabytes network", "", count));
+    labelConnectionsIcon->setToolTip(tr("%n active connection(s) to XTRABYTES network", "", count));
 }
 
 void XtraBYtesGUI::setNumBlocks(int count, int nTotalBlocks)
@@ -870,7 +873,7 @@ void XtraBYtesGUI::dropEvent(QDropEvent *event)
         if (nValidUrisFound)
             gotoSendCoinsPage();
         else
-            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid xtrabytes address or malformed URI parameters."));
+            notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid XTRABYTES address or malformed URI parameters."));
     }
 
     event->acceptProposedAction();
@@ -885,7 +888,7 @@ void XtraBYtesGUI::handleURI(QString strURI)
         gotoSendCoinsPage();
     }
     else
-        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid xtrabytes address or malformed URI parameters."));
+        notificator->notify(Notificator::Warning, tr("URI handling"), tr("URI can not be parsed! This can be caused by an invalid XTRABYTES address or malformed URI parameters."));
 }
 
 void XtraBYtesGUI::setEncryptionStatus(int status)
