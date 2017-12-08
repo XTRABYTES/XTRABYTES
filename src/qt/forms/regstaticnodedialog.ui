@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Registrating STaTiC Node</string>
+   <string>Registrating STATIC Node</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <property name="bottomMargin">
@@ -31,6 +31,7 @@
        <height>16777215</height>
       </size>
      </property>
+	
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -84,10 +85,10 @@
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">font-weight:bold;</string>
+             <string notr="true">font-weight:bold; font: 14pt;</string>
             </property>
             <property name="text">
-             <string>STaTiC node registration</string>
+             <string>STATIC Node Registration</string>
             </property>
            </widget>
           </item>
@@ -189,7 +190,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="sTaTiCNodeIDLabel">
             <property name="text">
-             <string>STaTiC Node ID (XBY address):</string>
+             <string>STATIC Node ID (XBY address):</string>
             </property>
            </widget>
           </item>
@@ -199,7 +200,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="sTaTiCNodeNameLabel">
             <property name="text">
-             <string>STaTiC Node Name:</string>
+             <string>STATIC Node Name:</string>
             </property>
            </widget>
           </item>
@@ -209,7 +210,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="sTaTiCNodePublicKeyLabel">
             <property name="text">
-             <string>STaTiC Node Public Key:</string>
+             <string>STATIC Node Public Key:</string>
             </property>
            </widget>
           </item>
@@ -219,7 +220,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="sTaTiCNodePrivateKeyLabel">
             <property name="text">
-             <string>STaTiC Node Private Key</string>
+             <string>STATIC Node Private Key</string>
             </property>
            </widget>
           </item>
@@ -275,7 +276,7 @@
      <item>
       <widget class="QPushButton" name="pushButtonRegSTaTiC">
        <property name="text">
-        <string>Register STaTiC node</string>
+        <string>Register STATIC Node</string>
        </property>
       </widget>
      </item>

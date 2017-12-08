@@ -17,8 +17,7 @@
    <string>Digging</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color:#505050;
-font-family:'Open Sans,sans-serif';</string>
+   <string notr="true">color: black; font: 10pt; font-family:'Open Sans,sans-serif';</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
@@ -69,29 +68,11 @@ font-family:'Open Sans,sans-serif';</string>
        <string>Update Statistics</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>191</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="../xtrabytes.qrc">:/icons/coinbg</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
     </widget>
    </item>
    <item row="0" column="0">
     <widget class="QFrame" name="gridFrame_2">
+     
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="3" column="0">
        <layout class="QFormLayout" name="formLayout_2">
@@ -282,7 +263,7 @@ font-family:'Open Sans,sans-serif';</string>
            </font>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;xtrabytes Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;XTRABYTES Statistics&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -333,6 +314,8 @@ font-family:'Open Sans,sans-serif';</string>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../xtrabytes.qrc"/>
+ </resources>
  <connections/>
 </ui>

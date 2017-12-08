@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
   </property>
@@ -90,7 +96,7 @@
      <item>
       <widget class="QValidatedLineEdit" name="payTo">
        <property name="toolTip">
-        <string>The xtrabytes address to send the payment to  (e.g. xtrabytesfwYhBmGXcFP2Po1NpRUEiK8km2)</string>
+        <string>The XTRABYTES address to send the payment to  (e.g. xtrabytesfwYhBmGXcFP2Po1NpRUEiK8km2)</string>
        </property>
        <property name="maxLength">
         <number>34</number>
@@ -106,7 +112,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../xtrabytes.qrc">
+        <iconset>
          <normaloff>:/icons/address-book</normaloff>:/icons/address-book</iconset>
        </property>
        <property name="shortcut">
@@ -123,7 +129,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../xtrabytes.qrc">
+        <iconset>
          <normaloff>:/icons/editpaste</normaloff>:/icons/editpaste</iconset>
        </property>
        <property name="shortcut">
@@ -140,7 +146,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../xtrabytes.qrc">
+        <iconset>
          <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
        </property>
       </widget>
