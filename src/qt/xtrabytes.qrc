@@ -57,8 +57,6 @@
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash.png</file>
 	<file alias="bkgsplash">res/images/bkg.png</file>
-	<file alias="registry">res/images/registry.jpg</file>
-	<file alias="stats">res/images/stats.jpg</file>
 	<file alias="bkg">res/images/bkg0.png</file>
     </qresource>
     <qresource prefix="/movies">
