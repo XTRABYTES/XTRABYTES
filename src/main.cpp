@@ -2015,7 +2015,6 @@ bool CBlock::AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos, const u
 
 
 
-
 bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) const
 {
     // These are checks that are independent of context
@@ -2123,13 +2122,52 @@ bool CBlock::AcceptBlock()
     if (mi == mapBlockIndex.end())
         return DoS(10, error("AcceptBlock() : prev block not found"));
     CBlockIndex* pindexPrev = (*mi).second;
+    
+    uint256 ChainTrustNow;
+    uint256 ChainTrustNext;
+    CBigNum tmpTarget;
+    tmpTarget.SetCompact(nBits);
+
+    if (tmpTarget <= 0) { ChainTrustNow=0; } 
+     else { ChainTrustNow=((CBigNum(1)<<256) / (tmpTarget+1)).getuint256(); }
+       
+    unsigned int nBitsNext;
+
+    int64_t nActualSpacing = GetBlockTime() - pindexPrev->GetBlockTime();
+    if (nActualSpacing < 0)
+        nActualSpacing = nTargetSpacing;
+
+    CBigNum bnNew;
+    bnNew.SetCompact(nBits);
+    int64_t nInterval = nTargetTimespan / nTargetSpacing; 
+    bnNew *= ((nInterval - 1) * nTargetSpacing + nActualSpacing + nActualSpacing);
+    bnNew /= ((nInterval + 1) * nTargetSpacing);
+
+    if (bnNew <= 0 || bnNew > bnProofOfWorkLimit)
+        bnNew = bnProofOfWorkLimit;
+
+    nBitsNext = bnNew.GetCompact();
+
+    tmpTarget.SetCompact(nBitsNext);
+          
+    if (tmpTarget <= 0) { ChainTrustNext=0; } 
+     else { ChainTrustNext=((CBigNum(1)<<256) / (tmpTarget+1)).getuint256(); }
+     
+    ChainTrustNow +=  pindexPrev->nChainTrust;
+    ChainTrustNext += ChainTrustNow;
+                      
+    // printf("AcceptBlock() : ChainTrustNext(%s) > ChainTrustNow(%s)\n", CBigNum(ChainTrustNext).ToString().c_str(), CBigNum(ChainTrustNow).ToString().c_str());
+    
     int nHeight = pindexPrev->nHeight+1;
+                   
+    if ( !(ChainTrustNext > ChainTrustNow ))
+        return DoS(100, error("AcceptBlock() : This block is rejected at heigh %d due to a trust failure at height %d", nHeight, nHeight+1));            
 
     if (IsProofOfWork() && nHeight > LAST_POW_BLOCK)
         return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
 
-    if (IsProofOfStake() && nHeight < MODIFIER_INTERVAL_SWITCH)
-        return DoS(100, error("AcceptBlock() : reject proof-of-stake at height %d", nHeight));
+    if (IsProofOfStake() )
+        return DoS(100, error("AcceptBlock() : reject proof-of-stake"));
 
     // Check proof-of-work or proof-of-stake
     if (nBits != GetNextTargetRequired(pindexPrev, IsProofOfStake()))
