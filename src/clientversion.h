@@ -7,9 +7,9 @@
 
 // These need to be macros, as version.cpp's and xtrabytes-qt.rc's voodoo requires it
 #define CLIENT_VERSION_MAJOR       1
-#define CLIENT_VERSION_MINOR       2
+#define CLIENT_VERSION_MINOR       3
 #define CLIENT_VERSION_REVISION    0
-#define CLIENT_VERSION_BUILD       4
+#define CLIENT_VERSION_BUILD       0
 
 #define CLIENT_BLOCK_VERSION       9
 
