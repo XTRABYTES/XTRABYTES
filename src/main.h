@@ -30,7 +30,7 @@ extern const char* POSIGN_FEE_ADDRESS;
 extern const char* ICO_TARGET_ADDRESS;
 extern int64_t GetMinTxFee();
 
-static const int LAST_POW_BLOCK = 10000000; // Approx. 7500 Days of Proof-Of-Work
+static const int LAST_POW_BLOCK = 363910; 
 
 static const unsigned int MAX_BLOCK_SIZE = 4000000;
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;

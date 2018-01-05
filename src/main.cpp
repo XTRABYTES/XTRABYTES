@@ -74,7 +74,10 @@ int64_t GetMinTxFee() {
    if(pindexBest->nHeight < 150000 ) {
        MIN_TX_FEE = 100 * COIN;
    } else {
-       MIN_TX_FEE = 50 * COIN;
+   	if(pindexBest->nHeight < 365000 ) {
+   	    MIN_TX_FEE = 50 * COIN;
+   	} else 
+        MIN_TX_FEE = 1 * COIN;
    }
    return MIN_TX_FEE;
 }
@@ -84,8 +87,8 @@ int64_t nReserveBalance = 0;
 int64_t nMinimumInputValue = 0;
 
 extern enum Checkpoints::CPMode CheckpointsMode;
-
 int LastUpgradedBlocks = 0;
+
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2019,7 +2022,7 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
 {
     // These are checks that are independent of context
     // that can be verified before saving an orphan block.
-    
+        
     // FIXMEE!
     bool PoSign = true;
 
@@ -2114,6 +2117,10 @@ bool CBlock::AcceptBlock()
 {
     // Check for duplicate
     uint256 hash = GetHash();
+
+    if (hash == uint256("0x000000041b4e316fc1f6af8052c9c142254f9783f140d690a954033d5e37eafb"))
+        return error("AcceptBlock() : This blockhash is disabled.");
+
     if (mapBlockIndex.count(hash))
         return error("AcceptBlock() : block already in mapBlockIndex");
 
@@ -2159,20 +2166,31 @@ bool CBlock::AcceptBlock()
     // printf("AcceptBlock() : ChainTrustNext(%s) > ChainTrustNow(%s)\n", CBigNum(ChainTrustNext).ToString().c_str(), CBigNum(ChainTrustNow).ToString().c_str());
     
     int nHeight = pindexPrev->nHeight+1;
+    
+    bool PoSignBlock = false;
+    if (nHeight > LAST_POW_BLOCK) {
+      if (CheckPoSignBlockSignature()) {
+      	 PoSignBlock = true;
+    	} else {
+          return DoS(50, error("AcceptBlock() : Proof of signature failed"));             	
+    	}   
+    }
                    
     if ( !(ChainTrustNext > ChainTrustNow ))
         return DoS(100, error("AcceptBlock() : This block is rejected at heigh %d due to a trust failure at height %d", nHeight, nHeight+1));            
 
-    if (IsProofOfWork() && nHeight > LAST_POW_BLOCK)
+    if (!PoSignBlock && nHeight > LAST_POW_BLOCK)
         return DoS(100, error("AcceptBlock() : reject proof-of-work at height %d", nHeight));
 
     if (IsProofOfStake() )
         return DoS(100, error("AcceptBlock() : reject proof-of-stake"));
 
     // Check proof-of-work or proof-of-stake
+    if (nHeight <= LAST_POW_BLOCK) {
     if (nBits != GetNextTargetRequired(pindexPrev, IsProofOfStake()))
         return DoS(100, error("AcceptBlock() : incorrect %s", IsProofOfWork() ? "proof-of-work" : "proof-of-stake"));
 
+    }
     // Check timestamp against prev
     if (GetBlockTime() <= pindexPrev->GetPastTimeLimit() || FutureDrift(GetBlockTime()) < pindexPrev->GetBlockTime())
         return error("AcceptBlock() : block's timestamp is too early");
@@ -2265,6 +2283,8 @@ bool ProcessBlock(CNode* pfrom, CBlock* pblock)
 {
     // Check for duplicate
     uint256 hash = pblock->GetHash();
+    
+
     if (mapBlockIndex.count(hash))
         return error("ProcessBlock() : already have block %d %s", mapBlockIndex[hash]->nHeight, hash.ToString().substr(0,20).c_str());
     if (mapOrphanBlocks.count(hash))
@@ -2477,18 +2497,14 @@ bool CBlock::CheckBlockSignature() const
 }
 
 bool CBlock::CheckPoSignBlockSignature() const
-{
-        // FIXMEE!
-        string strPubKey = "B5tde2DmwXbHekgu58frX7NbVz2dRo3YdL"; // trust proof of signature Pubkey
-        std::vector<unsigned char> vchRet;
-
-        bool fGood = DecodeBase58(strPubKey, vchRet);
-        CPubKey PubKey(vchRet);
+{ 
         CKey key;
-        if (!key.SetPubKey(PubKey))
+        if (!key.SetPubKey(ParseHex("03fe2e0ac95d7684ba5d128075e84437c9f4efb80ce8e613c1af5b0165e6a205f9"))) { 
             return false;
-        if (vchBlockSig.empty())
+        }    
+        if (vchBlockSig.empty()) {
             return false;	
+        }   
 	     return key.Verify(GetHash(), vchBlockSig);
 }
 
