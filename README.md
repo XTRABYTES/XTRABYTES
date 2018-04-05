@@ -7,7 +7,7 @@ At the backbone of the Xtrabytes system is a shared database storage system that
 
 ### More Information
 
-At this time the vast majority of the code is closed source and under patent review. This repository is by no means representative of the full Xtrabytes software. 
+At this time the vast majority of the code is closed source and under patent review. This repository is by no means representative of the full Xtrabytes tech. Acquisition of patents and relevant software protections are currently being put in place. 
 
 Currently the Xtrabytes frontend development is non-proprietary and can be actively viewed at https://github.com/borzalom/xcite
 
