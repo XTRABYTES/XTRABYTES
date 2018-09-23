@@ -164,7 +164,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;XTRABYTES Community Forum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;XTRABYTES Forum&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_12">
@@ -235,7 +235,7 @@
       </font>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;XTRABYTES Community Links&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;XTRABYTES Community&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
@@ -248,7 +248,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Get the latest information about the XTRABYTES universe. Don't miss out on important announcements. Visit the links below!  </string>
+      <string>Get the latest information about the XTRABYTES universe.  </string>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
@@ -283,22 +283,6 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>620</x>
-       <y>20</y>
-       <width>201</width>
-       <height>211</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.cryptopia.co.nz/Forum/Thread/2815&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;CRYPTOPIA FORUM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://bitcoingarden.org/forum/index.php?topic=22478.0&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;BITCOIN GARDEN&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="openExternalLinks">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QFrame" name="frame">
      <property name="geometry">
       <rect>
@@ -314,7 +298,22 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <zorder>label_5</zorder>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>-40</y>
+        <width>201</width>
+        <height>211</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.cryptopia.co.nz/Forum/Thread/2815&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;CRYPTOPIA FORUM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://bitcoingarden.org/forum/index.php?topic=22478.0&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;BITCOIN GARDEN&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://discordapp.com/channels/388279933102718976/388344781019021313&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;DISCORD&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="openExternalLinks">
+       <bool>true</bool>
+      </property>
+     </widget>
     </widget>
     <zorder>frame</zorder>
     <zorder>label</zorder>
@@ -326,7 +325,6 @@
     <zorder>label_4</zorder>
     <zorder>label_5</zorder>
     <zorder>label_6</zorder>
-    <zorder>label_7</zorder>
    </widget>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -345,38 +343,6 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>530</y>
-     <width>231</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://c-cex.com/index.html?p=xby-btc&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;C-CEX&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="openExternalLinks">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_13">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>530</y>
-     <width>231</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://www.cryptopia.co.nz/Exchange/?market=XBY_BTC&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;CRYPTOPIA&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="openExternalLinks">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
@@ -392,6 +358,22 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>0</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://www.cryptopia.co.nz/Exchange/?market=XBY_BTC&quot;&gt;&lt;span style=&quot; font-size:16pt; text-decoration: none; color:#00aaff;&quot;&gt;CRYPTOPIA&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="openExternalLinks">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <action name="actionQuit">
    <property name="text">
@@ -409,8 +391,6 @@
   <zorder>frame_2</zorder>
   <zorder>widget_2</zorder>
   <zorder>label_8</zorder>
-  <zorder>label_10</zorder>
-  <zorder>label_13</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
