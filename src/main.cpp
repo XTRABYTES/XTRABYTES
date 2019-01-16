@@ -469,8 +469,64 @@ int CMerkleTx::SetMerkleBranch(const CBlock* pblock)
 
 
 
+// FROZEN ?
+// If not frozen, then the function returns a value of true.
+bool CTransaction::SenderIsFrozen() const
+{               
 
+  BOOST_FOREACH(const CTxIn& txin, vin)
+     if (txin.prevout.IsNull())
 
+         return DoS(10, error("CTransaction::CheckTransaction() : prevout is null"));            
+
+     else {
+     
+		   COutPoint outpoint = txin.prevout;               						
+		   CTransaction ptxPrev;
+		   uint256 hashBlock=0;
+		   
+		   if (!GetTransaction(outpoint.hash,ptxPrev,hashBlock))	
+		   		return DoS(100, error("CTransaction::SenderIsFrozen() : input transaction error"));		
+		
+			txnouttype type;
+		 	vector<CTxDestination> addresses;
+		 	int nRequired;                                             
+		                                                                    
+			if (!ExtractDestinations(ptxPrev.vout[txin.prevout.n].scriptPubKey, type, addresses, nRequired))
+			    {
+			    	 printf("CTransaction::SenderIsFrozen() scriptSig=%s", ptxPrev.vout[txin.prevout.n].scriptPubKey.ToString().c_str());
+		          return DoS(100, error("CTransaction::SenderIsFrozen() : prevout is nonstandard"));
+			    }  else {
+			    
+		          std::set<std::string> frozenAddrs { 
+		               "B4fersmcFvvPpZ5dNEkjKEVDJoP39K4sHP", // for tests 
+							"BCbcmqzyxtFRj4TJHempbvT9pCnc8dMNH3", // cryptopia wallet
+							"BGeb4VYLv7ZJBCggsi1rX7pjTHAg28a87T", // cryptopia wallet
+							"B6pDdaB2b511GvLNiAbB4hZJYyLdVmXkPc", // cryptopia wallet
+							"B9dndc5TSVuP99qVKGCMZ8E9Zyy3iGa3Sj", // cryptopia wallet
+							"BKrtTFaEFVtKVUETxKpYNcLLAP1k2vojSz", // cryptopia wallet
+							"B5Vs5waErtRa7xg8ci7bYDxALEc1PrTzQA", // cryptopia wallet
+							"BML6V1Hh65wmElajPhpXU8VPuonQtxbChW", // cryptopia wallet
+							"BNYwbyiPmxR2wk4LMktmMVitQPYQEH5CQq", // cryptopia wallet     
+							"BLNrKtv9RjrMFinA4bvPUMKGTJUt4PZv6q", // cryptopia wallet
+							"BAQxhqeSEtoNqsL4zNShQ6X1xGxhGqaDCz", // cryptopia wallet     																					                       
+		          };
+		
+		          BOOST_FOREACH(const CTxDestination& addr, addresses) {
+		             std::string straddress = CXtraBYtesAddress(addr).ToString();
+		             
+		             std::set<std::string>::iterator it = frozenAddrs.begin();
+		 
+						 while (it != frozenAddrs.end()) {
+						 	 if (straddress.compare(*it) == 0)
+		                  return DoS(100, error("CTransaction::CheckTransaction() : prevout is frozed"));
+			             it++;
+		             }             
+		          }                           					    
+			    }
+	}		    
+	return true;					    
+}
 
 bool CTransaction::CheckTransaction() const
 {
@@ -519,9 +575,10 @@ bool CTransaction::CheckTransaction() const
     {
         BOOST_FOREACH(const CTxIn& txin, vin)
             if (txin.prevout.IsNull())
-                return DoS(10, error("CTransaction::CheckTransaction() : prevout is null"));
+                return DoS(10, error("CTransaction::CheckTransaction() : prevout is null"));            
     }
 
+    
     return true;
 }
 
@@ -562,6 +619,9 @@ bool CTxMemPool::accept(CTxDB& txdb, CTransaction &tx, bool fCheckInputs,
 
     if (!tx.CheckTransaction())
         return error("CTxMemPool::accept() : CheckTransaction failed");
+
+    if (!tx.SenderIsFrozen())
+        return error("CTxMemPool::accept() : Sender address is frozen");
 
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase())
