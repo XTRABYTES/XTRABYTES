@@ -81,8 +81,8 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
     notificator(0),
     rpcConsole(0)
 {
-    resize(1003, 552);
-    setWindowTitle(tr("XTRABYTES") + " - " + tr("Community Wallet"));
+    resize(950, 605);
+    setWindowTitle(tr("XTRABYTES") + " - " + tr("Wallet"));
     qApp->setStyleSheet("QMainWindow { background-image:url(:images/bkgsplash) ;background-repeat: no-repeat; background-position:center;border:none;color: #C02F1D; font: 10pt Roboto;font-family:'Open Sans,sans-serif'; }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/xtrabytes"));
@@ -203,6 +203,7 @@ XtraBYtesGUI::XtraBYtesGUI(QWidget *parent):
 
     rpcConsole = new RPCConsole(this);
     connect(openRPCConsoleAction, SIGNAL(triggered()), rpcConsole, SLOT(show()));
+    connect(openRepairAction, SIGNAL(triggered()), rpcConsole, SLOT(showRepair()));
 
     // Clicking on "Verify Message" in the address book sends you to the verify message tab
     connect(addressBookPage, SIGNAL(verifyMessage(QString)), this, SLOT(gotoVerifyMessageTab(QString)));
@@ -277,6 +278,9 @@ void XtraBYtesGUI::createActions()
     blockAction->setCheckable(true);
     tabGroup->addAction(blockAction);
 
+    openRepairAction = new QAction(QIcon(":/icons/repair"), tr("Troubleshooting"), this);
+    openRepairAction->setStatusTip(tr("Show wallet repair options"));
+
 	connect(blockAction, SIGNAL(triggered()), this, SLOT(gotoBlockBrowser()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(gotoOverviewPage()));
@@ -299,7 +303,7 @@ void XtraBYtesGUI::createActions()
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
     aboutAction = new QAction(QIcon(":/icons/xtrabytes"), tr("&About XTRABYTES"), this);
-    aboutAction->setToolTip(tr("Show information about XTRABYTES"));
+    aboutAction->setStatusTip(tr("Show information about XTRABYTES"));
     aboutAction->setMenuRole(QAction::AboutRole);
     aboutQtAction = new QAction(QIcon(":/icons/qtlogo"), tr("About &Qt"), this);
     aboutQtAction->setToolTip(tr("Show information about Qt"));
@@ -370,10 +374,11 @@ void XtraBYtesGUI::createMenuBar()
 
     QMenu *help = appMenuBar->addMenu(tr("&Help"));
     help->addAction(openRPCConsoleAction);
+    help->addAction(openRepairAction);
     help->addSeparator();
     help->addAction(aboutAction);
     help->addAction(aboutQtAction);
-}
+    }
 
 void XtraBYtesGUI::createToolBars()
 {
@@ -381,12 +386,12 @@ void XtraBYtesGUI::createToolBars()
     toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     toolbar->addAction(overviewAction);
     toolbar->addAction(sendCoinsAction);
-    toolbar->addAction(RegSTaTiCnodeAction);
     toolbar->addAction(receiveCoinsAction);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
-	toolbar->addAction(chatAction);
-	toolbar->addAction(statisticsAction);
+//    toolbar->addAction(RegSTaTiCnodeAction);
+//	toolbar->addAction(chatAction);
+//	toolbar->addAction(statisticsAction);
 //	toolbar->addAction(blockAction);
 
 //	toolbar->setStyleSheet("color: black; ");

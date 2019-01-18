@@ -49,12 +49,30 @@ public slots:
     void browseHistory(int offset);
     /** Scroll console view to end */
     void scrollToEnd();
+
+/** Wallet repair options */
+    void walletSalvage();
+    void walletRescan();
+    void walletZaptxes1();
+    void walletZaptxes2();
+    void walletUpgrade();
+    void walletReindex();
+    void walletResync();
+
+/** Switch to wallet-repair tab and show */
+    void showRepair();
+
 signals:
     // For RPC command executor
     void stopExecutor();
     void cmdRequest(const QString &command);
+    
+    /** Get restart command-line parameters and handle restart */
+    void handleRestart(QStringList args);
 
 private:
+    void buildParameterlist(QString arg);
+
     Ui::RPCConsole *ui;
     ClientModel *clientModel;
     QStringList history;

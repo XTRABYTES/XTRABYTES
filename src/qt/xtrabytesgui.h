@@ -105,6 +105,7 @@ private:
     QAction *lockWalletAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+    QAction* openRepairAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -132,6 +133,8 @@ public slots:
        @see WalletModel::EncryptionStatus
     */
     void setEncryptionStatus(int status);
+
+
 
     /** Notify the user of an error in the network or transaction handling code. */
     void error(const QString &title, const QString &message, bool modal);
@@ -193,6 +196,8 @@ private slots:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
+
+
 
     void lockWallet();
 

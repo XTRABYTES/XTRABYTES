@@ -12,6 +12,7 @@
 #include <QKeyEvent>
 #include <QUrl>
 #include <QScrollBar>
+#include <QDir>
 
 #include <openssl/crypto.h>
 
@@ -22,6 +23,16 @@ const int CONSOLE_SCROLLBACK = 50;
 const int CONSOLE_HISTORY = 50;
 
 const QSize ICON_SIZE(24, 24);
+
+// Repair parameters
+
+const QString SALVAGEWALLET("-salvagewallet");
+const QString RESCAN("-rescan");
+const QString ZAPTXES1("-zapwallettxes=1");
+const QString ZAPTXES2("-zapwallettxes=2");
+const QString UPGRADEWALLET("-upgradewallet");
+const QString REINDEX("-reindex");
+const QString RESYNC("-resync");
 
 const struct {
     const char *url;
@@ -203,8 +214,30 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
 
+    // Wallet Repair Buttons
+
+    // connect(ui->btn_salvagewallet, SIGNAL(clicked()), this, SLOT(walletSalvage()));
+    // connect(ui->btn_rescan, SIGNAL(clicked()), this, SLOT(walletRescan()));
+    // connect(ui->btn_zapwallettxes1, SIGNAL(clicked()), this, SLOT(walletZaptxes1()));
+    // connect(ui->btn_zapwallettxes2, SIGNAL(clicked()), this, SLOT(walletZaptxes2()));
+    // connect(ui->btn_upgradewallet, SIGNAL(clicked()), this, SLOT(walletUpgrade()));
+    // connect(ui->btn_reindex, SIGNAL(clicked()), this, SLOT(walletReindex()));
+    // connect(ui->btn_resync, SIGNAL(clicked()), this, SLOT(walletResync()));
+
+   ui->btn_salvagewallet->setEnabled(false);
+   ui->btn_rescan->setEnabled(false);
+   ui->btn_zapwallettxes1->setEnabled(false);
+   ui->btn_zapwallettxes2->setEnabled(false);
+   ui->btn_upgradewallet->setEnabled(false);
+   ui->btn_reindex->setEnabled(false);
+   ui->btn_resync->setEnabled(false);
+
     // set OpenSSL version label
     ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+
+#ifdef ENABLE_WALLET
+    ui->wallet_path->setText(QString::fromStdString(GetDataDir().string() + QDir::separator().toLatin1() + GetArg("-wallet", "wallet.dat")));
+#endif
 
     startExecutor();
 
@@ -284,6 +317,96 @@ static QString categoryClass(int category)
     case RPCConsole::CMD_ERROR:    return "cmd-error"; break;
     default:                       return "misc";
     }
+}
+
+/** Restart wallet with "-salvagewallet" */
+
+void RPCConsole::walletSalvage()
+{
+    buildParameterlist(SALVAGEWALLET);
+}
+
+/** Restart wallet with "-rescan" */
+
+void RPCConsole::walletRescan()
+{
+    buildParameterlist(RESCAN);
+}
+
+/** Restart wallet with "-zapwallettxes=1" */
+
+void RPCConsole::walletZaptxes1()
+{
+    buildParameterlist(ZAPTXES1);
+}
+
+/** Restart wallet with "-zapwallettxes=2" */
+
+void RPCConsole::walletZaptxes2()
+{
+    buildParameterlist(ZAPTXES2);
+}
+
+/** Restart wallet with "-upgradewallet" */
+
+void RPCConsole::walletUpgrade()
+{
+    buildParameterlist(UPGRADEWALLET);
+}
+
+/** Restart wallet with "-reindex" */
+
+void RPCConsole::walletReindex()
+{
+    buildParameterlist(REINDEX);
+}
+
+/** Restart wallet with "-resync" */
+
+void RPCConsole::walletResync()
+{
+    QString resyncWarning = tr("This will delete your local blockchain folders and the wallet will synchronize the complete Blockchain from scratch.<br /><br />");
+        resyncWarning +=   tr("This needs quite some time and downloads a lot of data.<br /><br />");
+        resyncWarning +=   tr("Your transactions and funds will be visible again after the download has completed.<br /><br />");
+        resyncWarning +=   tr("Do you want to continue?.<br />");
+    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm resync Blockchain"),
+        resyncWarning,
+        QMessageBox::Yes | QMessageBox::Cancel,
+        QMessageBox::Cancel);
+
+    if (retval != QMessageBox::Yes) {
+
+        // Resync canceled
+
+        return;
+    }
+
+    // Restart and resync
+
+    buildParameterlist(RESYNC);
+}
+
+/** Build command-line parameter list for restart */
+
+void RPCConsole::buildParameterlist(QString arg)
+{
+    // Get command-line arguments and remove the application name
+    QStringList args = QApplication::arguments();
+    args.removeFirst();
+
+    // Remove existing repair-options
+    args.removeAll(SALVAGEWALLET);
+    args.removeAll(RESCAN);
+    args.removeAll(ZAPTXES1);
+    args.removeAll(ZAPTXES2);
+    args.removeAll(UPGRADEWALLET);
+    args.removeAll(REINDEX);
+
+    // Append repair parameter to command line.
+    args.append(arg);
+
+    // Send command-line arguments to BitcoinGUI::handleRestart()
+    emit handleRestart(args);
 }
 
 void RPCConsole::clear()
@@ -434,4 +557,10 @@ void RPCConsole::on_showCLOptionsButton_clicked()
 {
     GUIUtil::HelpMessageBox help;
     help.exec();
+}
+
+void RPCConsole::showRepair()
+{
+    ui->tabWidget->setCurrentIndex(4);
+    show();
 }
