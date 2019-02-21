@@ -1,4 +1,4 @@
-![xtrabytes_update_github](https://github.com/jcpbs/XtraBYtes/blob/master/src/qt/res/images/splash1.png)
+![xtrabytes_update_github](https://github.com/XTRABYTES/XTRABYTES/blob/master/src/qt/res/images/splash.png)
 
 # X T R A B Y T E S
 
