@@ -348,7 +348,7 @@
        <item row="17" column="0">
         <widget class="QPushButton" name="showCLOptionsButton">
          <property name="toolTip">
-          <string>Show the XTRABYTES-Qt help message to get a list with possible xtrabytes command-line options.</string>
+          <string>Show the XTRABYTES help message to get a list with possible XTRABYTES command-line options.</string>
          </property>
          <property name="text">
           <string>&amp;Show</string>
@@ -970,7 +970,7 @@
 
          <property name="text">
 
-          <string>Rebuild block chain index from current blk000??.dat files.</string>
+          <string>Rebuild blockchain index from current blk000??.dat files.</string>
 
          </property>
 
