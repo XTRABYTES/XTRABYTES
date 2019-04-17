@@ -1,10 +1,29 @@
 ![xtrabytes_update_github](https://github.com/XTRABYTES/XTRABYTES/blob/master/src/qt/res/images/splash.png)
 
+<div align="center">
+  <h3>
+    <a href="https://xtrabytes.global">
+      Website
+    </a>
+    <span> | </span>
+    <a href="https://xtrabytes.global/whitepaper.pdf">
+      Whitepaper
+    </a>
+    <span> | </span>
+    <a href="https://discord.xtrabytes.global">
+      Discord
+    </a>
+    <span> | </span>
+    <a href="https://support.xtrabytes.global">
+      Help Center
+    </a>
+  </h3>
+</div>
+
 # X T R A B Y T E S
 
 XTRABYTES - The Proof of Signature Blockchain Platform
 
-https://xtrabytes.global/
 
 XTRABYTES is a newly invented blockchain infrastructure that does not require any traditional type of mining support, such as: POW or POS. We have created something called Proof of Signature which ensures that 100% of all blocks will be signed by the system when they occur. The blocks are signed by the network of Master Nodes after verifying the transactions in the block. There are a total of 650 million XBY and there will never be more. 
 
