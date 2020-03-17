@@ -2,21 +2,14 @@
 // Copyright (c) 2009-2012 The Bitcoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-#ifndef XTRABYTES_BIGNUM_H
-#define XTRABYTES_BIGNUM_H
-
-#include "serialize.h"
-#include "uint256.h"
-#include "version.h"
-
-#include <openssl/bn.h>
+#ifndef XFUEL_BIGNUM_H
+#define XFUEL_BIGNUM_H
 
 #include <stdexcept>
 #include <vector>
 #include <openssl/bn.h>
 
-#include <stdint.h>
+#include "util.h" // for uint64
 
 /** Errors thrown by the bignum class */
 class bignum_error : public std::runtime_error
@@ -110,11 +103,46 @@ public:
     CBigNum(uint64_t n) : self(NULL)         { init(); setuint64(n); }
     explicit CBigNum(uint256 n) : self(NULL) { init(); setuint256(n); }
 
+
     explicit CBigNum(const std::vector<unsigned char>& vch) : self(NULL)
     {
         init();
         setvch(vch);
     }
+
+    /** Generates a cryptographically secure random number between zero and range exclusive
+    * i.e. 0 < returned number < range
+    * @param range The upper bound on the number.
+    * @return
+    */
+    static CBigNum  randBignum(const CBigNum& range) {
+        CBigNum ret;
+        if(!BN_rand_range(ret.get(), range.cget())){
+            throw bignum_error("CBigNum:rand element : BN_rand_range failed");
+        }
+        return ret;
+    }
+
+    /** Generates a cryptographically secure random k-bit number
+    * @param k The bit length of the number.
+    * @return
+    */
+    static CBigNum RandKBitBigum(const uint32_t k){
+        CBigNum ret;
+        if(!BN_rand(ret.get(), k, -1, 0)){
+            throw bignum_error("CBigNum:rand element : BN_rand failed");
+        }
+        return ret;
+    }
+
+    /**Returns the size in bits of the underlying bignum.
+     *
+     * @return the size
+     */
+    int bitSize() const{
+        return  BN_num_bits(self);
+    }
+
 
     void setulong(unsigned long n)
     {
@@ -141,43 +169,49 @@ public:
             return (n > (unsigned long)std::numeric_limits<int>::max() ? std::numeric_limits<int>::min() : -(int)n);
     }
 
-    void setint64(int64_t n)
+    void setint64(int64_t sn)
     {
-        unsigned char pcx[16], *p = pcx + 15; *p = 0;
-        uint8_t neg = 0;
-        uint64_t m = n; // to correct care -0
-        if(n < 0)
-          m = -n, neg = 0x80;
-        while(m) {
-          *--p = m;
-          m >>= 8;
-        }
-        if((signed char)*p < 0)
-          *--p = neg;
-        *p |= neg;
-         n = pcx + 15 - p;
-        *--p = n;
-        *--p = 0;
-        *--p = 0;
-        *--p = 0;
-        BN_mpi2bn(p, pcx + 15 - p, self);
-    }
+        unsigned char pch[sizeof(sn) + 6];
+        unsigned char* p = pch + 4;
+        bool fNegative;
+        uint64_t n;
 
-    void setuint64(uint64_t n)
-    {
-        unsigned char pcx[16], *p = pcx + 15; *p = 0;
-        while(n) {
-          *--p = n;
-          n >>= 8;
+        if (sn < (int64_t)0)
+        {
+            // Since the minimum signed integer cannot be represented as positive so long as its type is signed, 
+            // and it's not well-defined what happens if you make it unsigned before negating it,
+            // we instead increment the negative integer by 1, convert it, then increment the (now positive) unsigned integer by 1 to compensate
+            n = -(sn + 1);
+            ++n;
+            fNegative = true;
+        } else {
+            n = sn;
+            fNegative = false;
         }
-        if((signed char)*p < 0)
-          *--p = 0;
-        n = pcx + 15 - p;
-        *--p = n;
-        *--p = 0;
-        *--p = 0;
-        *--p = 0;
-        BN_mpi2bn(p, pcx + 15 - p, self);
+
+        bool fLeadingZeroes = true;
+        for (int i = 0; i < 8; i++)
+        {
+            unsigned char c = (n >> 56) & 0xff;
+            n <<= 8;
+            if (fLeadingZeroes)
+            {
+                if (c == 0)
+                    continue;
+                if (c & 0x80)
+                    *p++ = (fNegative ? 0x80 : 0);
+                else if (fNegative)
+                    c |= 0x80;
+                fLeadingZeroes = false;
+            }
+            *p++ = c;
+        }
+        unsigned int nSize = p - (pch + 4);
+        pch[0] = (nSize >> 24) & 0xff;
+        pch[1] = (nSize >> 16) & 0xff;
+        pch[2] = (nSize >> 8) & 0xff;
+        pch[3] = (nSize) & 0xff;
+        BN_mpi2bn(pch, p - pch, self);
     }
 
     uint64_t getuint64()
@@ -193,6 +227,33 @@ public:
         for (unsigned int i = 0, j = vch.size()-1; i < sizeof(n) && j >= 4; i++, j--)
             ((unsigned char*)&n)[i] = vch[j];
         return n;
+    }
+
+    void setuint64(uint64_t n)
+    {
+        unsigned char pch[sizeof(n) + 6];
+        unsigned char* p = pch + 4;
+        bool fLeadingZeroes = true;
+        for (int i = 0; i < 8; i++)
+        {
+            unsigned char c = (n >> 56) & 0xff;
+            n <<= 8;
+            if (fLeadingZeroes)
+            {
+                if (c == 0)
+                    continue;
+                if (c & 0x80)
+                    *p++ = 0;
+                fLeadingZeroes = false;
+            }
+            *p++ = c;
+        }
+        unsigned int nSize = p - (pch + 4);
+        pch[0] = (nSize >> 24) & 0xff;
+        pch[1] = (nSize >> 16) & 0xff;
+        pch[2] = (nSize >> 8) & 0xff;
+        pch[3] = (nSize) & 0xff;
+        BN_mpi2bn(pch, p - pch, self);
     }
 
     void setuint256(uint256 n)
@@ -227,12 +288,12 @@ public:
     {
         unsigned int nSize = BN_bn2mpi(self, NULL);
         if (nSize < 4)
-            return uint256();
+            return 0;
         std::vector<unsigned char> vch(nSize);
         BN_bn2mpi(self, &vch[0]);
         if (vch.size() > 4)
             vch[4] &= 0x7f;
-        uint256 n = uint256();
+        uint256 n = 0;
         for (unsigned int i = 0, j = vch.size()-1; i < sizeof(n) && j >= 4; i++, j--)
             ((unsigned char*)&n)[i] = vch[j];
         return n;
@@ -263,71 +324,6 @@ public:
         vch.erase(vch.begin(), vch.begin() + 4);
         reverse(vch.begin(), vch.end());
         return vch;
-    }
-
-    // The "compact" format is a representation of a whole
-    // number N using an unsigned 32bit number similar to a
-    // floating point format.
-    // The most significant 8 bits are the unsigned exponent of base 256.
-    // This exponent can be thought of as "number of bytes of N".
-    // The lower 23 bits are the mantissa.
-    // Bit number 24 (0x800000) represents the sign of N.
-    // N = (-1^sign) * mantissa * 256^(exponent-3)
-    //
-    // Satoshi's original implementation used BN_bn2mpi() and BN_mpi2bn().
-    // MPI uses the most significant bit of the first byte as sign.
-    // Thus 0x1234560000 is compact (0x05123456)
-    // and  0xc0de000000 is compact (0x0600c0de)
-    // (0x05c0de00) would be -0x40de000000
-    //
-    // Bitcoin only uses this "compact" format for encoding difficulty
-    // targets, which are unsigned 256bit quantities.  Thus, all the
-    // complexities of the sign bit and using base 256 are probably an
-    // implementation accident.
-    //
-    // This implementation directly uses shifts instead of going
-    // through an intermediate MPI representation.
-    CBigNum& SetCompact(unsigned int nCompact)
-    {
-        unsigned int nSize = nCompact >> 24;
-        bool fNegative     =(nCompact & 0x00800000) != 0;
-        unsigned int nWord = nCompact & 0x007fffff;
-        if (nSize <= 3)
-        {
-            nWord >>= 8*(3-nSize);
-            BN_set_word(self, nWord);
-        }
-        else
-        {
-            BN_set_word(self, nWord);
-            BN_lshift(self, self, 8*(nSize-3));
-        }
-        BN_set_negative(self, fNegative);
-        return *this;
-    }
-
-    unsigned int GetCompact() const
-    {
-        unsigned int nSize = BN_num_bytes(self);
-        unsigned int nCompact = 0;
-        if (nSize <= 3)
-            nCompact = BN_get_word(self) << 8*(3-nSize);
-        else
-        {
-            CBigNum bn;
-            BN_rshift(bn.get(), self, 8*(nSize-3));
-            nCompact = BN_get_word(bn.cget());
-        }
-        // The 0x00800000 bit denotes the sign.
-        // Thus, if it is already set, divide the mantissa by 256 and increase the exponent.
-        if (nCompact & 0x00800000)
-        {
-            nCompact >>= 8;
-            nSize++;
-        }
-        nCompact |= nSize << 24;
-        nCompact |= (BN_is_negative(self) ? 0x00800000 : 0);
-        return nCompact;
     }
 
     void SetHex(const std::string& str)
@@ -512,6 +508,8 @@ public:
     friend inline const CBigNum operator-(const CBigNum& a, const CBigNum& b);
     friend inline const CBigNum operator/(const CBigNum& a, const CBigNum& b);
     friend inline const CBigNum operator%(const CBigNum& a, const CBigNum& b);
+    friend inline const CBigNum operator*(const CBigNum& a, const CBigNum& b);
+    friend inline bool operator<(const CBigNum& a, const CBigNum& b);
 };
 
 
@@ -587,5 +585,9 @@ inline bool operator<=(const CBigNum& a, const CBigNum& b) { return (BN_cmp(a.cg
 inline bool operator>=(const CBigNum& a, const CBigNum& b) { return (BN_cmp(a.cget(), b.cget()) >= 0); }
 inline bool operator<(const CBigNum& a, const CBigNum& b)  { return (BN_cmp(a.cget(), b.cget()) < 0); }
 inline bool operator>(const CBigNum& a, const CBigNum& b)  { return (BN_cmp(a.cget(), b.cget()) > 0); }
+
+inline std::ostream& operator<<(std::ostream &strm, const CBigNum &b) { return strm << b.ToString(10); }
+
+typedef  CBigNum Bignum;
 
 #endif
