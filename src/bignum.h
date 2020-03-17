@@ -2,14 +2,21 @@
 // Copyright (c) 2009-2012 The Bitcoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef XFUEL_BIGNUM_H
-#define XFUEL_BIGNUM_H
+
+#ifndef XTRABYTES_BIGNUM_H
+#define XTRABYTES_BIGNUM_H
+
+#include "serialize.h"
+#include "uint256.h"
+#include "version.h"
+
+#include <openssl/bn.h>
 
 #include <stdexcept>
 #include <vector>
 #include <openssl/bn.h>
 
-#include "util.h" // for uint64
+#include <stdint.h>
 
 /** Errors thrown by the bignum class */
 class bignum_error : public std::runtime_error
@@ -178,9 +185,7 @@ public:
 
         if (sn < (int64_t)0)
         {
-            // Since the minimum signed integer cannot be represented as positive so long as its type is signed, 
-            // and it's not well-defined what happens if you make it unsigned before negating it,
-            // we instead increment the negative integer by 1, convert it, then increment the (now positive) unsigned integer by 1 to compensate
+            // Since the minimum signed integer cannot be represented as positive so long as its type is signed, and it's not well-defined what happens if you make it unsigned before negating it, we instead increment the negative integer by 1, convert it, then increment the (now positive) unsigned integer by 1 to compensate
             n = -(sn + 1);
             ++n;
             fNegative = true;
@@ -299,6 +304,7 @@ public:
         return n;
     }
 
+
     void setvch(const std::vector<unsigned char>& vch)
     {
         std::vector<unsigned char> vch2(vch.size() + 4);
@@ -324,6 +330,31 @@ public:
         vch.erase(vch.begin(), vch.begin() + 4);
         reverse(vch.begin(), vch.end());
         return vch;
+    }
+
+    CBigNum& SetCompact(unsigned int nCompact)
+    {
+        unsigned int nSize = nCompact >> 24;
+        std::vector<unsigned char> vch(4 + nSize);
+        vch[3] = nSize;
+        if (nSize >= 1) vch[4] = (nCompact >> 16) & 0xff;
+        if (nSize >= 2) vch[5] = (nCompact >> 8) & 0xff;
+        if (nSize >= 3) vch[6] = (nCompact >> 0) & 0xff;
+        BN_mpi2bn(&vch[0], vch.size(), self);
+        return *this;
+    }
+
+    unsigned int GetCompact() const
+    {
+        unsigned int nSize = BN_bn2mpi(self, NULL);
+        std::vector<unsigned char> vch(nSize);
+        nSize -= 4;
+        BN_bn2mpi(self, &vch[0]);
+        unsigned int nCompact = nSize << 24;
+        if (nSize >= 1) nCompact |= (vch[4] << 16);
+        if (nSize >= 2) nCompact |= (vch[5] << 8);
+        if (nSize >= 3) nCompact |= (vch[6] << 0);
+        return nCompact;
     }
 
     void SetHex(const std::string& str)
@@ -404,6 +435,122 @@ public:
         std::vector<unsigned char> vch;
         ::Unserialize(s, vch, nType, nVersion);
         setvch(vch);
+    }
+
+    /**
+    * exponentiation with an int. this^e
+    * @param e the exponent as an int
+    * @return
+    */
+    CBigNum pow(const int e) const {
+        return this->pow(CBigNum(e));
+    }
+
+    /**
+     * exponentiation this^e
+     * @param e the exponent
+     * @return
+     */
+    CBigNum pow(const CBigNum& e) const {
+        CAutoBN_CTX pctx;
+        CBigNum ret;
+        if (!BN_exp(ret.get(), self, e.cget(), pctx))
+            throw bignum_error("CBigNum::pow : BN_exp failed");
+        return ret;
+    }
+
+    /**
+     * modular multiplication: (this * b) mod m
+     * @param b operand
+     * @param m modulus
+     */
+    CBigNum mul_mod(const CBigNum& b, const CBigNum& m) const {
+        CAutoBN_CTX pctx;
+        CBigNum ret;
+        if (!BN_mod_mul(ret.get(), self, b.cget(), m.cget(), pctx))
+            throw bignum_error("CBigNum::mul_mod : BN_mod_mul failed");
+        
+        return ret;
+    }
+
+    /**
+     * modular exponentiation: this^e mod n
+     * @param e exponent
+     * @param m modulus
+     */
+    CBigNum pow_mod(const CBigNum& e, const CBigNum& m) const {
+        CAutoBN_CTX pctx;
+        CBigNum ret;
+        if( e < 0){
+            // g^-x = (g^-1)^x
+            CBigNum inv = this->inverse(m);
+            CBigNum posE = e * -1;
+            if (!BN_mod_exp(ret.get(), inv.cget(), posE.cget(), m.cget(), pctx))
+                throw bignum_error("CBigNum::pow_mod: BN_mod_exp failed on negative exponent");
+        }else
+            if (!BN_mod_exp(ret.get(), self, e.cget(), m.cget(), pctx))
+                throw bignum_error("CBigNum::pow_mod : BN_mod_exp failed");
+
+        return ret;
+    }
+
+    /**
+    * Calculates the inverse of this element mod m.
+    * i.e. i such this*i = 1 mod m
+    * @param m the modu
+    * @return the inverse
+    */
+    CBigNum inverse(const CBigNum& m) const {
+        CAutoBN_CTX pctx;
+        CBigNum ret;
+        if (!BN_mod_inverse(ret.get(), self, m.cget(), pctx))
+            throw bignum_error("CBigNum::inverse*= :BN_mod_inverse");
+        return ret;
+    }
+
+    /**
+     * Generates a random (safe) prime of numBits bits
+     * @param numBits the number of bits
+     * @param safe true for a safe prime
+     * @return the prime
+     */
+    static CBigNum generatePrime(const unsigned int numBits, bool safe = false) {
+        CBigNum ret;
+        if(!BN_generate_prime_ex(ret.get(), numBits, (safe == true), NULL, NULL, NULL))
+            throw bignum_error("CBigNum::generatePrime*= :BN_generate_prime_ex");
+        return ret;
+    }
+
+    /**
+     * Calculates the greatest common divisor (GCD) of two numbers.
+     * @param m the second element
+     * @return the GCD
+     */
+    CBigNum gcd( const CBigNum& b) const{
+        CAutoBN_CTX pctx;
+        CBigNum ret;
+        if (!BN_gcd(ret.get(), self, b.cget(), pctx))
+            throw bignum_error("CBigNum::gcd*= :BN_gcd");
+        return ret;
+    }
+
+    /**
+    * Miller-Rabin primality test on this element
+    * @param checks: optional, the number of Miller-Rabin tests to run
+    * default causes error rate of 2^-80.
+    * @return true if prime
+    */
+    bool isPrime(const int checks=BN_prime_checks) const {
+        CAutoBN_CTX pctx;
+        int ret = BN_is_prime(self, checks, NULL, pctx, NULL);
+        if(ret < 0){
+            throw bignum_error("CBigNum::isPrime :BN_is_prime");
+        }
+        return ret;
+    }
+
+    bool isOne() const {
+        return BN_is_one(self);
     }
 
 
