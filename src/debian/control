@@ -1,0 +1,11 @@
+Source: xtrabytesd
+Maintainer: Zoltan Szabo <info@borzalom.hu>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+Section: utils
+
+Package: xtrabytesd
+Priority: extra  
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}  
+Description: xfueld package of XTRABYTES project

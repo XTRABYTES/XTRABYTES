@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+DESTDIR = $(CURDIR)/debian/xtrabytesd
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	make install PREFIX=$(DESTDIR)
