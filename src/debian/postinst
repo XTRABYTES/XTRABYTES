@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "upgrade" ]; then
+    systemctl daemon-reload
+    systemctl start xtrabytes.service
+fi
+
+exit 0
+
