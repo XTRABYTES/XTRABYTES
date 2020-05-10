@@ -5,6 +5,7 @@
 
 #include "main.h"
 #include "xtrabytesrpc.h"
+#include "txdb-leveldb.h"
 
 using namespace json_spirit;
 using namespace std;
@@ -289,6 +290,48 @@ Value getcheckpoint(const Array& params, bool fHelp)
 
     if (mapArgs.count("-checkpointkey"))
         result.push_back(Pair("checkpointmaster", true));
+
+    return result;
+}
+
+Value gettxvouts(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "gettxvouts <txid>\n"
+            "Show info of transaction vout-s.\n");
+    
+    string strTXID = params[0].get_str();
+
+    uint256 txid = 0;
+    txid.SetHex(params[0].get_str());
+
+    Object result;
+    CTxDB txdb("r");
+    CTransaction tx;
+    CTxIndex txindex;
+            
+    if (tx.ReadFromDisk(txdb, COutPoint(txid, 0), txindex)) {
+    	
+       for (unsigned int i = 0; i < tx.vout.size(); i++) {
+          const CTxOut& txout = tx.vout[i];
+          
+          result.push_back(Pair("value", ValueFromAmount(txout.nValue)));
+          result.push_back(Pair("n", (boost::int64_t)i));          
+
+          if (!txindex.vSpent[i].IsNull()) {
+            result.push_back(Pair("spent", true));
+          } else {
+            result.push_back(Pair("spent", false));
+          }          
+       }    	    	
+       result.push_back(Pair("txdb", true));
+    } else {
+       result.push_back(Pair("txdb", false));
+    }
+
+
+    
 
     return result;
 }
