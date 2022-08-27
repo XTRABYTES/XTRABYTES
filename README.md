@@ -2,19 +2,19 @@
 
 <div align="center">
   <h3>
-    <a href="https://xtrabytes.global">
+    <a href="https://xtrabytes.dev">
       Website
     </a>
     <span> | </span>
-    <a href="https://xtrabytes.global/whitepaper.pdf">
+    <a href="https://xtrabytes.dev/whitepaper.pdf">
       Whitepaper
     </a>
     <span> | </span>
-    <a href="https://discord.xtrabytes.global">
+    <a href="https://discord.xtrabytes.dev">
       Discord
     </a>
     <span> | </span>
-    <a href="https://support.xtrabytes.global">
+    <a href="https://support.xtrabytes.dev">
       Help Center
     </a>
   </h3>
@@ -51,9 +51,13 @@ We aim to deliver a blockchain platform that provides users with superior speed,
   - iPhone/iPad (iOS) (coming soon)
 
 **2. Where can I learn more about XTRABYTES?**
-   - [Website](https://xtrabytes.global/)
-   - [Discord](https://discord.xtrabytes.global)
-   - [Help Center](http://support.xtrabytes.global)
-   - [Whitepaper](https://xtrabytes.global/whitepaper.pdf)
-   - [Forum](https://community.xtrabytes.global)
-   
+   - [Website](https://xtrabytes.dev/)
+   - [Discord](https://discord.xtrabytes.dev)
+   - [Help Center](http://support.xtrabytes.dev)
+   - [Whitepaper](https://xtrabytes.dev/whitepaper.pdf)
+   - [Forum](https://community.xtrabytes.dev)
+      
+**3. Last news XTRABYTES?**
+
+   - [CoinMarketCap](cmc@xtrabytes.dev) We are applying for CoinMarketCap self-reporting dashboard. 
+
